@@ -8,21 +8,14 @@
   <div id='container'>
 
 
-<h1>My favorite bros</h1>
-<div id='disclaimer'>**don't freak out if you're not listed below, it's just an exercise**</div>
-<ul id='list'>
-    <b id="list-head">This is the list of my favorite bros:</b>
-    <li>Freaks number <%= freaksnum %></li>
-    <% for(var i = 0 ; i < 3 ; i++){ %>
-    <li><%= glutt[i] %></li>
-    <%  } %>
-</ul>
+<h1>Scrapping a JSON file on API</h1>
+<div id='disclaimer'>**let's do it from this very node application !**</div>
 
+<h3 id="json">Here is myJson file: </h3>
+<p id="json-content"><%= baum %><p>
 
-    <form>
-    Add a bro  =>
-    <input type="text" placeholder="Your name">    <input type="submit" value="add!">
-    </form>
+<h2>Server ready, time to do some front stuff now !!!</h2>
+
 
   </div>
 
@@ -71,7 +64,7 @@
 }
 
 h1 {    margin: 0}
-
+#json {margin-top: 20px}
 li {margin-left: 40px;line-height: 20px;}
 li:hover:after{content:  "  ♻" }
 
