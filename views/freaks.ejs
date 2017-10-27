@@ -8,14 +8,14 @@
   <div id='container'>
 
 
-<h1>Récupération du JSON depuis l'API</h1>
-<div id='disclaimer'>**Test de l'affichage du Json**</div>
+<h1>Récupération et affichage du JSON</h1>
+
 
 <h3 id="json">Le contenu arrive ici depuis l'API : </h3>
 <p id="json-content"><%= baum %><p>
 
-<h2>Server ready, time to do some front stuff now !  #fullstack</h2>
-
+<h4>Le serveur est OK, il va falloir bosser sur le front !<br>#fullstack</h4>
+<div id='disclaimer'>(parce que là c'est juste ultra moche...)</div>
 
   </div>
 
@@ -28,11 +28,16 @@
   padding: 0;
   box-sizing: border-box;
   font-family: georgia, sans-serif;
+
     }
+
+body{
+  background: #e6e6e6;
+}
 
 #superbigcontainer{
   width: 100%;
-  height: 100%;
+  text-align: left;
   background: #e6e6e6;
   position: absolute;
   top: 0;
@@ -43,8 +48,9 @@
   background: white;
   border-radius: 5px;
   box-shadow:0 0 10px #999;
-  margin: 30px auto auto 45px;
-  width:60%
+  margin: 30px auto 30px 5%;
+  word-break: break-all;
+  width:500px;
 }
 
 #container *{
@@ -53,7 +59,7 @@
 
 #disclaimer{
   font-style: italic;
-  margin: 0;
+  margin: 5x 0 0 0;
   opacity: 0.6;
   /*animation: fadein 6s;*/
 }
@@ -64,16 +70,9 @@
 }
 
 h1 {    margin: 0}
+
 #json {margin-top: 20px}
-li {margin-left: 40px;line-height: 20px;}
-li:hover:after{content:  "  ♻" }
-
-#list{  margin: 40px 0 0 25px;}
-#list-head{
-        margin-left: -20px;
-}
-
-input{border-radius: 1px;padding: 2px;margin-left: 8px;}
+#json-content {margin: 30px 0 30px 0;}
 
 
 
