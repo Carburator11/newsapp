@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({  extended: true }));
 app.use(bodyParser.json());
 
 app.post('/admin/refresh', function(req, res) {
-  res.setHeader('Content-Type', 'text/html');
   console.log(req.body, 'It worked!');
   getcnn();
   res.redirect(303, '/admin');
@@ -33,6 +32,7 @@ app.get('/admin', function(req, res) {
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');
     res.status(404).send('Page introuvable !');
+    res.status(503).send('Page introuvable, erreur 503');
 });
 
 app.listen(app.get('port'), () => {
