@@ -1,32 +1,30 @@
 <head>
-<title>freaks <%= freaksnum %></title>
+<title>NR v2 | Admin</title>
 </head>
+
 
 
 <body>
 <div id = 'superbigcontainer'>
   <div id='container'>
+    <h1>Test récupération/affichage du JSON</h1>
+    <h4 id="json">Contenu récupéré à : <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
+    <form method="post" action="/admin/refresh %>">
+      <input type="submit" value="Refresh &#9850;"/>
+    </form>
+    <br>
+
+    <h4>Précédentes requêtes :   </h4>
+    <p id="json-content"><%- glutt %><p>
+    <div id='disclaimer'>(OK, jusque là, c'est ultra moche...)</div>
 
 
-<h1>Test récupération/affichage du JSON</h1>
-
-
-<h3 id="json">Le contenu arrive ici depuis l'API : </h3>
-<p id="json-content"><%= baum %><p>
-<div id='disclaimer'>(OK, jusque là, c'est ultra moche...)</div>
-
-<h4>Le serveur est OK, il va falloir bosser sur le front<br>To be continued....</h4>
-
-
-<div id ="more">
-  
-  <div id="git">Suivez ce projet sur <a href="https://github.com/Carburator11">Github</a></div>
-  <div id="ln">Mon profil <a href="https://www.linkedin.com/in/pierrevautherin/">LinkedIn</a></div>
-  <div id="v1">La première version de ce site : <a href="http://carb11.eu/newsroom/">Newsroom v1.0</a></div>
-</div>
+    <div id ="more">
+      <div id="git">Suivez ce projet sur <a href="https://github.com/Carburator11">Github</a></div>
+      <div id="ln">Mon profil <a href="https://www.linkedin.com/in/pierrevautherin/">LinkedIn</a></div>
+      <div id="v1">La première version de ce site : <a href="http://carb11.eu/newsroom/">Newsroom v1.0</a></div>
+    </div>
   </div>
-
-
 </div>
 </body>
 
@@ -56,13 +54,11 @@ body{
   border-radius: 5px;
   box-shadow:0 0 10px #999;
   margin: 30px auto 30px 5%;
-  word-break: break-all;
-  width:520px;
+  /*word-break: break-all;*/
+  width:720px;
 }
 
-#container *{
-  margin-top: 12px;
-}
+
 
 #disclaimer{
   font-style: italic;
@@ -79,8 +75,9 @@ body{
 h1 {    margin: 0}
 
 #json {margin-top: 20px}
-#json-content {margin: 30px 0 30px 0;}
+#json-content {margin: 0 0 0 10px;}
 #more{margin-top: 70px;}
 
+form, input {margin-top: 0};
 
 </style>
