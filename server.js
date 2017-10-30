@@ -31,7 +31,7 @@
 
     app.post('/admin/refresh', function(req, res) {
       console.log(req.body, 'It worked!');
-      getJson(inputArray, result);
+      //getJson(inputArray, result);
       res.redirect(303, '/admin');
     });
 
@@ -54,30 +54,34 @@
 
 
 
-      //getJson(object.bbc, result);
-      //getJson(object.guardian, result);
-      //getJson(object.recode, result);
-      //getJson(object.bbcsport, result);
+
 
     //external
     var count = 0;
 
     //http request via request module
     function getJson(array, callback){
+
       request({
           url: array[count][Object.keys(array[count])],  //"simplest" way I found to iterate through array of object containing the urls
           json: true,
           callback:callback
           }, function(error, response, body) {
+              console.log("retrieving...  task " + count);
               console.log("url: "+ array[count][Object.keys(array[count])])
               var articles = body;
-              // or by case, depending on what you want resultArray = resultArray.concat(articles);
-              callback(articles);
+              callback(body);
           });
     }
 
     var result = function(e){
       resultArray.push(e);
+      console.log(JSON.stringify(e).substring(0, 54));
+      console.log("     ");
+
+
+      if(count ==0){resultArray = [];}
+
       count++;                          //count is a global variable
       if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
         lastUpdate = timer.timer();
@@ -86,8 +90,16 @@
         }
 
       else {
-        console.log("processing...   count:" + count);
         getJson(inputArray, result);
       }
 
       };
+
+function init(){
+  //resultArray = [];
+  //callback(inputArray, result);
+  //getJson(object.bbc, result);
+  //getJson(object.guardian, result);
+  //getJson(object.recode, result);
+  //getJson(object.bbcsport, result);
+}
