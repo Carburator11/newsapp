@@ -30,7 +30,7 @@
     app.use(bodyParser.json());
 
     app.post('/admin/refresh', function(req, res) {
-      console.log(req.body, 'It worked!');
+      console.log(req.body, 'Refresh!');
       //getJson(inputArray, result);
       res.redirect(303, '/admin');
     });
@@ -67,6 +67,7 @@
           json: true,
           callback:callback
           }, function(error, response, body) {
+              if(count ==0){resultArray = [];}
               console.log("retrieving...  task " + count);
               console.log("url: "+ array[count][Object.keys(array[count])])
               var articles = body;
@@ -76,16 +77,16 @@
 
     var result = function(e){
       resultArray.push(e);
-      console.log(JSON.stringify(e).substring(0, 54));
+      console.log(JSON.stringify(e).substring(0, 124));
       console.log("     ");
 
 
-      if(count ==0){resultArray = [];}
+
 
       count++;                          //count is a global variable
       if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
         lastUpdate = timer.timer();
-        console.log("END of loop: " + JSON.stringify(resultArray).substring(0, 114));
+        console.log("END of loop: " + JSON.stringify(resultArray));
         count = 0; console.log("count reinitialized to:" + count)     //count is reinitialized here
         }
 
