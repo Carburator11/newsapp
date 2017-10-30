@@ -31,7 +31,7 @@
 
     app.post('/admin/refresh', function(req, res) {
       console.log(req.body, 'Refresh!');
-
+      getJson(inputArray, result);
       res.redirect(303, '/admin');
     });
 
@@ -91,12 +91,12 @@
     var result = function(e){
       resultArray.push(e);
       console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
-
+      lastUpdate = timer.dateFull();
 
 
       count++;                          //count is a global variable
       if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
-        lastUpdate = timer.dateFull();
+
         //console.log("END of loop: " + JSON.stringify(resultArray).substring(0, 124));
         count = 0;
         //console.log("count reinitialized to:" + count)     //count is reinitialized here
