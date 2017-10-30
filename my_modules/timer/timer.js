@@ -16,8 +16,8 @@ module.exports ={
       if(dd<10){ dd='0'+dd;}
       if(mm<10){ mm='0'+mm;}
       var dateFull = hh+":"+min+":"+sec+" - "+dd+'/'+mm+'/'+yyyy;
-      var dateDay = yyyy+mm+dd;
-      if(e = ""){return dateDay;}
+      var dateDay = yyyy+""+mm+""+dd;
+      if(e != ""){return dateDay;}
       else {return dateFull}
       }
 }
