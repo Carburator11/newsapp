@@ -12,9 +12,9 @@
     <form method="post" action="/admin/refresh %>">
       <input type="submit" value="Refresh &#9851;"/>
     </form>
-
-
-    <p id="json-content"><%- outputJson %><p>
+    <br>
+    <b>Sources(<%- resultArray.length %>)</b>
+    <p id="json-content"><%- (JSON.stringify(resultArray)).replace(/,/g, ",<br>") %><p>
     <div id='disclaimer'>(OK, jusque là, c'est ultra moche...)</div>
 
 

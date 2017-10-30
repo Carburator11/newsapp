@@ -8,20 +8,21 @@
     var request = require('request');
 
 
-    var sources = {
-          cnn:'https://newsapi.org/v1/articles?source=cnn&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',
-          bbc:'https://newsapi.org/v1/articles?source=cnn&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',
-          guardian:'https://newsapi.org/v1/articles?source=cnn&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',
-          othersource: "otherurls..."};
+    var inputArray = [
+          {cnn:'https://newsapi.org/v1/articles?source=cnn&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
+          {bbc:'https://newsapi.org/v1/articles?source=bbc-news&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
+          {guardian:'https://newsapi.org/v1/articles?source=the-guardian-uk&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
+          {recode:'https://newsapi.org/v1/articles?source=recode&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
+          {bbcsport:'https://newsapi.org/v1/articles?source=bbc-sport&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',}
+        ];
 
-    var resultArray = [];
+    var resultArray = []; //DO NOT modify ! harcoded in the result callback function
 
 
 
 
-    app.set('port', (process.env.PORT || 5000));
-          var cnnJson = 'Json comes here';
-          var cnnUrl = 'https://newsapi.org/v1/articles?source=cnn&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc';
+  app.set('port', (process.env.PORT || 5000));
+          //var cnnUrl = 'https://newsapi.org/v1/articles?source=cnn&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc';
           var lastUpdate = "00:00:00 - dd/mm/yyyy";
 
 
@@ -30,13 +31,13 @@
 
     app.post('/admin/refresh', function(req, res) {
       console.log(req.body, 'It worked!');
-      getcnn(sources.cnn);
+      getJsonfrom(inputArray, result);
       res.redirect(303, '/admin');
     });
 
     app.get('/admin', function(req, res) {
       res.setHeader('Content-Type', 'text/html');
-      res.render('freaks.ejs',{outpuJson: outputJson, lastUpdate: lastUpdate});
+      res.render('freaks.ejs',{resultArray: resultArray, lastUpdate: lastUpdate});
     });
 
     app.use(function(req, res, next){
@@ -47,41 +48,29 @@
 
     app.listen(app.get('port'), () => {
       console.log('We are live on port: ', app.get('port'));
-      getcnn(sources.cnn);
+      getJson(inputArray, result);
     });
 
 
-    //http request
-    var getcnn = function(url){
-          https.get(url, (res) => {
-            var body = '';
-            res.on('data', function(chunk){
-              body += chunk;
-            });
 
-            res.on('end', function(){
-                cnnJson = JSON.parse(body);
-                console.log(JSON.stringify(cnnJson).substring(1, 14).replace(/"/g, " "));
-                lastUpdate = timer.timer();
-                console.log('last update :', lastUpdate);
-                outputJson  =  (JSON.stringify(cnnJson)).replace(/,|}|]/g, "<br>");
 
-                  });
+      //getJson(object.bbc, result);
+      //getJson(object.guardian, result);
+      //getJson(object.recode, result);
+      //getJson(object.bbcsport, result);
 
-            }).on('error', function(e){
-                console.log('Got an error', e);
-      });
-    }
+    //external
+    var count = 0;
 
     //http request via request module
-    function getJson(url, callback){
+    function getJson(array, callback){
       request({
-          url: url,
+          url: array[count][Object.keys(array[count])],  //"simplest" way I found to iterate through array of object containing the urls
           json: true,
           callback:callback
           }, function(error, response, body) {
-
-              var articles = body.articles;
+              console.log("url: "+ array[count][Object.keys(array[count])])
+              var articles = body;
               // or by case, depending on what you want resultArray = resultArray.concat(articles);
               callback(articles);
           });
@@ -89,7 +78,16 @@
 
     var result = function(e){
       resultArray.push(e);
-      console.log(JSON.stringify(resultArray).substring(0, 114));
-      };
+      count++;                          //count is a global variable
+      if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
+        lastUpdate = timer.timer();
+        console.log("END of loop: " + JSON.stringify(resultArray).substring(0, 114));
+        count = 0; console.log("count reinitialized to:" + count)     //count is reinitialized here
+        }
 
-    getJson(sources.cnn, result);
+      else {
+        console.log("processing...   count:" + count);
+        getJson(inputArray, result);
+      }
+
+      };
