@@ -14,7 +14,8 @@
     </form>
 
     <h4 id="json">Ref. du dataset : <span id=''>  <%= date %>  </span></h4>
-    <p> URL du dataset : <a href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
+    <p> URL du dataset : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
+    <p> URL du dataset : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
     <form method="post" action="/admin/save/<%- date %>" >
       <input type="submit" value="Save &#128190;"/>
     </form>

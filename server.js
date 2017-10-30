@@ -4,7 +4,7 @@
     var timer = require("./my_modules/timer/timer.js");
     var http = require('http');
     var bodyParser = require('body-parser');
-    var async = require('async');
+    var fs = require('fs');
     var request = require('request');
 
 
@@ -37,19 +37,21 @@
 
     app.post('/admin/save/:date', function(req, res) {
       console.log(req.body, 'saving dataset!');
-
+      getJson(inputArray, save);
       res.redirect(303, '/admin');
     });
 
 
     app.get('/admin', function(req, res) {
       //res.setHeader('Content-Type', 'text/html');
+
       res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate});
     });
 
     app.get('/:date', function(req, res) {
       //res.setHeader('Content-Type', 'text/html');
-      res.render('pageview.ejs',{date:req.params.date, resultArray: resultArray, lastUpdate: lastUpdate});
+      var object = require('./data/' + date + '.json');
+      res.render('pageview.ejs',{date:req.params.date, resultArray: resultArray, lastUpdate: lastUpdate, object: object});
     });
 
 
@@ -108,11 +110,23 @@
 
       };
 
-function init(){
-  //resultArray = [];
-  //callback(inputArray, result);
-  //getJson(object.bbc, result);
-  //getJson(object.guardian, result);
-  //getJson(object.recode, result);
-  //getJson(object.bbcsport, result);
-}
+function save(e){
+    resultArray.push(e);
+    console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
+    lastUpdate = timer.dateFull();
+    count++;                          //count = global variable
+    if(count == inputArray.length){   //hardcoded inputArray
+      console.log("okay ! " +  JSON.stringify(resultArray));
+      fs.writeFile("data/"+date+".json", JSON.stringify(resultArray), function (err) {
+        if (err) throw err;
+      });
+
+      count = 0;
+      //console.log("count reinitialized to:" + count)     //count is reinitialized here
+      }
+
+    else {
+      getJson(inputArray, save);
+    }
+
+};
