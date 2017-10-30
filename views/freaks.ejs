@@ -10,12 +10,11 @@
     <h1>Test récupération/affichage du JSON</h1>
     <h4 id="json">Contenu récupéré à : <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
     <form method="post" action="/admin/refresh %>">
-      <input type="submit" value="Refresh &#9850;"/>
+      <input type="submit" value="Refresh &#9851;"/>
     </form>
-    <br>
 
-    <h4>Précédentes requêtes :   </h4>
-    <p id="json-content"><%- glutt %><p>
+
+    <p id="json-content"><%- outputJson %><p>
     <div id='disclaimer'>(OK, jusque là, c'est ultra moche...)</div>
 
 
@@ -75,7 +74,7 @@ body{
 h1 {    margin: 0}
 
 #json {margin-top: 20px}
-#json-content {margin: 0 0 0 10px;}
+#json-content {margin: 30px 0 0 10px;}
 #more{margin-top: 70px;}
 
 form, input {margin-top: 0};
