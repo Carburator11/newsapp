@@ -18,9 +18,12 @@
 
     var resultArray = []; //DO NOT modify ! harcoded in the result callback function
 
-    var date = timer.timer();
+    var date = timer.dateShort();
+    var lastUpdate = timer.dateFull();
     var history = {};
-    var lastUpdate = "00:00:00 - dd/mm/yyyy" ;
+
+
+    console.log("timer:    "+ date)
 
     app.set('port', (process.env.PORT || 5000));
     app.use(bodyParser.urlencoded({  extended: true }));
@@ -93,7 +96,7 @@
 
       count++;                          //count is a global variable
       if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
-        lastUpdate = timer.timer();
+        lastUpdate = timer.dateFull();
         //console.log("END of loop: " + JSON.stringify(resultArray).substring(0, 124));
         count = 0;
         //console.log("count reinitialized to:" + count)     //count is reinitialized here
