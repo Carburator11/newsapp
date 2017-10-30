@@ -31,7 +31,7 @@
 
     app.post('/admin/refresh', function(req, res) {
       console.log(req.body, 'It worked!');
-      getJsonfrom(inputArray, result);
+      getJson(inputArray, result);
       res.redirect(303, '/admin');
     });
 
