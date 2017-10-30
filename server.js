@@ -40,12 +40,12 @@
 
 
     app.get('/admin', function(req, res) {
-      res.setHeader('Content-Type', 'text/html');
+      //res.setHeader('Content-Type', 'text/html');
       res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate});
     });
 
     app.get('/:date', function(req, res) {
-      res.setHeader('Content-Type', 'text/html');
+      //res.setHeader('Content-Type', 'text/html');
       res.render('pageview.ejs',{date:req.params.date, resultArray: resultArray, lastUpdate: lastUpdate});
     });
 
