@@ -30,22 +30,26 @@
     app.use(bodyParser.json());
 
     app.post('/admin/refresh', function(req, res) {
-      console.log(req.body, 'Refresh!');
-      getJson(inputArray, result);
+      console.log('Refresh!');
       res.redirect(303, '/admin');
+      //res.setHeader('Content-Type', 'text/html');
+      //getJson(inputArray, result);
+      //res.end();
     });
 
     app.post('/admin/save/:date', function(req, res) {
       console.log(req.body, 'saving dataset!');
       getJson(inputArray, save);
+      console.log("redirect 303");
       res.redirect(303, '/admin');
     });
 
 
     app.get('/admin', function(req, res) {
-      //res.setHeader('Content-Type', 'text/html');
-
+      res.setHeader('Content-Type', 'text/html');
+      getJson(inputArray, result);
       res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate});
+
     });
 
     app.get('/:date', function(req, res) {
@@ -56,7 +60,7 @@
 
 
     app.use(function(req, res, next){
-        res.setHeader('Content-Type', 'text/plain');
+        res.setHeader('Content-Type', 'text/html');
         res.status(404).send('Page introuvable !');
         res.status(503).send('Page introuvable, erreur 503');
     });
