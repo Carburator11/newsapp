@@ -39,8 +39,7 @@
 
     app.post('/admin/save/:date', function(req, res) {
       console.log(req.body, 'saving dataset!');
-      getJson(inputArray, save);
-      console.log("redirect 303");
+      save(inputArray);
       res.redirect(303, '/admin');
     });
 
@@ -67,7 +66,7 @@
 
     app.listen(app.get('port'), () => {
       console.log('We are live on port: ', app.get('port'));
-      getJson(inputArray, result);
+      //getJson(inputArray, result);
     });
 
 
@@ -115,22 +114,12 @@
       };
 
 function save(e){
-    resultArray.push(e);
-    console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
+    //console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
     lastUpdate = timer.dateFull();
-    count++;                          //count = global variable
-    if(count == inputArray.length){   //hardcoded inputArray
-      console.log("okay ! " +  JSON.stringify(resultArray));
-      fs.writeFile("data/"+date+".json", JSON.stringify(resultArray), function (err) {
+    console.log("okay ! " +  JSON.stringify(e));
+      fs.writeFile("data/"+date+".json", JSON.stringify(e), function (err) {
         if (err) throw err;
       });
 
-      count = 0;
-      //console.log("count reinitialized to:" + count)     //count is reinitialized here
-      }
-
-    else {
-      getJson(inputArray, save);
-    }
 
 };
