@@ -37,15 +37,15 @@
       //res.end();
     });
 
-    app.post('/admin/save/:date', function(req, res) {
+    app.post('/admin/save/:id', function(req, res) {
       console.log(req.body, 'saving dataset!');
-      save(inputArray);
+      save(inputArray, req.params.id);
       res.redirect(303, '/admin');
     });
 
 
     app.get('/admin', function(req, res) {
-      res.setHeader('Content-Type', 'text/html');
+      //res.setHeader('Content-Type', 'text/html');
       getJson(inputArray, result);
       res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate});
 
@@ -66,7 +66,7 @@
 
     app.listen(app.get('port'), () => {
       console.log('We are live on port: ', app.get('port'));
-      //getJson(inputArray, result);
+      getJson(inputArray, result);
     });
 
 
@@ -113,11 +113,12 @@
 
       };
 
-function save(e){
+function save(e, id){
+
     //console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
     lastUpdate = timer.dateFull();
     console.log("okay ! " +  JSON.stringify(e));
-      fs.writeFile("data/"+date+".json", JSON.stringify(e), function (err) {
+      fs.writeFile("data/"+ id +".json", JSON.stringify(e), function (err) {
         if (err) throw err;
       });
 

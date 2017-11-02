@@ -5,23 +5,30 @@
 
 
 <body>
-<div id = 'superbigcontainer'>
+<div id = 'superbigcontainer' onkeyup="customInput()">
   <div id='container'>
-    <h1>Test récupération/affichage du JSON</h1>
-    <h4 id="json">Dataset récupéré à : <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
+    <h1>Fetching JSON dataset</h1>
+    <h4 id="json">Dataset updated at: <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
     <form method="post" action="/admin/refresh">
-      <input type="submit" value="Refresh &#8635;"/>
+      <input type="submit" value="Get / Refresh dataset &#8635;"/>
     </form>
 
-    <h4 id="json">Ref. du dataset : <span id=''>  <%= date %>  </span></h4>
-    <p> URL du dataset : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
-    <p> URL du dataset : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
+    <h4 id="json">Default dataset id: <span id=''>  <%= date %>  </span></h4>
+    <p> URL (external) : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
+    <p> URL (local) : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
     <form method="post" action="/admin/save/<%- date %>" >
-      <input type="submit" value="Save &#128190;"/>
+      <input type="submit" value="Save dataset &#128190;"/>
+    </form>
+
+    <form method="post" action="" id="submitCustom" >
+    <h4 id="json" >Customized dataset id: <input type="text" name="custom" id="customInput"  text=""> </input> </h4>
+    <p> URL (external) : <a id="customExtUrl" target="_blank" href="https://newsapp-carb11.herokuapp.com/"/>https://newsapp-carb11.herokuapp.com/</a><p>
+    <p> URL (local) : <a id="customLocalUrl" target="_blank" href="localhost:5000/"/>localhost:5000/</a><p>
+    <input type="submit" value="Save custom path &#128190;" />
     </form>
 
 
-    <br>
+    <br><br><br><br>
     <b>Sources(<%- resultArray.length %>)</b>
     <p id="json-content"><%- (JSON.stringify(resultArray)).replace(/,/g, ",<br>") %><p>
 
@@ -35,6 +42,26 @@
   </div>
 </div>
 </body>
+
+<script>
+
+
+
+var customId = document.getElementById('customInput').value;
+
+  function customInput(){
+
+      customId = document.getElementById('customInput').value;
+      document.getElementById("customExtUrl").href = "https://newsapp-carb11.herokuapp.com/" + customId ;
+      document.getElementById("customExtUrl").innerHTML = "https://newsapp-carb11.herokuapp.com/" + customId ;
+      document.getElementById("customLocalUrl").href = "localhost:5000/" + customId ;
+      document.getElementById("customLocalUrl").innerHTML = "localhost:5000/" + customId ;
+      document.getElementById("submitCustom").action = "/admin/save/"+ customId;
+
+  }
+
+  console.log(customId);
+</script>
 
 <style>
 *, *:after, body {margin: 0;
