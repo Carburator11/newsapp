@@ -39,7 +39,7 @@
 
     app.post('/admin/save/:id', function(req, res) {
       console.log(req.body, 'saving dataset!');
-      save(inputArray, req.params.id);
+      save(resultArray, req.params.id);
       res.redirect(303, '/admin');
     });
 
@@ -51,10 +51,12 @@
 
     });
 
-    app.get('/:date', function(req, res) {
+    app.get('/:id', function(req, res) {
       //res.setHeader('Content-Type', 'text/html');
-      var object = require('./data/' + date + '.json');
-      res.render('pageview.ejs',{date:req.params.date, resultArray: resultArray, lastUpdate: lastUpdate, object: object});
+      //res.send("hello!");
+      var object = require('./data/' + req.params.id + '.json');
+      res.send(JSON.stringify(object));
+      //res.render('pageview.ejs',{id:req.params.id, resultArray: resultArray, lastUpdate: lastUpdate, object: object});
     });
 
 
