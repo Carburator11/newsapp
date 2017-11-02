@@ -28,6 +28,7 @@
     app.set('port', (process.env.PORT || 5000));
     app.use(bodyParser.urlencoded({  extended: true }));
     app.use(bodyParser.json());
+    app.use(express.static(__dirname));
 
     app.post('/admin/refresh', function(req, res) {
       console.log('Refresh!');
@@ -47,7 +48,7 @@
     app.get('/admin', function(req, res) {
       //res.setHeader('Content-Type', 'text/html');
       getJson(inputArray, result);
-      res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate});
+      res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate, dirList:dirList});
 
     });
 
@@ -69,10 +70,7 @@
     app.listen(app.get('port'), () => {
       console.log('We are live on port: ', app.get('port'));
       getJson(inputArray, result);
-    });
-
-
-
+      });
 
 
 
@@ -88,26 +86,19 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){resultArray = [];}
-              //console.log("retrieving...  task " + count);
-              //console.log("url: "+ array[count][Object.keys(array[count])])
-              //var articles = body;
               callback(body);
           });
     }
 
     var result = function(e){
-      resultArray.push(e);
-      console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
-      lastUpdate = timer.dateFull();
-
-
-      count++;                          //count is a global variable
-      if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
-
-        //console.log("END of loop: " + JSON.stringify(resultArray).substring(0, 124));
-        count = 0;
-        //console.log("count reinitialized to:" + count)     //count is reinitialized here
-        }
+        resultArray.push(e);
+        console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
+        lastUpdate = timer.dateFull();
+        count++;                          //count is a global variable
+          if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
+                count = 0;
+                jsonDir();
+            }
 
       else {
         getJson(inputArray, result);
@@ -126,3 +117,23 @@ function save(e, id){
 
 
 };
+
+
+
+
+
+
+var dirList = "";
+function jsonDir(){
+  dirList = "";
+  fs.readdir('./data/', (err, files) => {      //data directory path hardcoded !!
+    files.forEach(file => { exportJsonDirList(file);   });
+  });
+
+}
+
+
+function exportJsonDirList(e){
+  dirList += "<ul>"+e+"</ul>";
+  console.log(dirList);
+}

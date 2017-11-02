@@ -2,35 +2,71 @@
 <title>NR v2 | Admin</title>
 </head>
 
-
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 
 <body>
 <div id = 'superbigcontainer' onkeyup="customInput()">
+
+
+
+
   <div id='container'>
-    <h1>Fetching JSON dataset</h1>
-    <h4 id="json">Dataset updated at: <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
-    <form method="post" action="/admin/refresh">
-      <input type="submit" value="Get / Refresh dataset &#8635;"/>
-    </form>
 
-    <h4 id="json">Default dataset id: <span id=''>  <%= date %>  </span></h4>
-    <p> URL (external) : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
-    <p> URL (local) : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
-    <form method="post" action="/admin/save/<%- date %>" >
-      <input type="submit" value="Save dataset &#128190;"/>
-    </form>
+    <h1>Admin tool v1.0</h1>
+    <div class = "menu">
+     <button class="active" id="create" onclick="showclass('create')">Create</button>
+     <button class="" id="preview"      onclick="showclass('preview')">Preview</button>
+     <button class="" id="browse"       onclick="showclass('browse')">Browse</button>
+     <button class="" id="edit"         onclick="showclass('edit')">Edit</button>
+     <button class="" id="deploy"       onclick="showclass('deploy')">Deploy</button>
+     </div>
+   <div class = "content">
 
-    <form method="post" action="" id="submitCustom" >
-    <h4 id="json" >Customized dataset id: <input type="text" name="custom" id="customInput"  text=""> </input> </h4>
-    <p> URL (external) : <a id="customExtUrl" target="_blank" href="https://newsapp-carb11.herokuapp.com/"/>https://newsapp-carb11.herokuapp.com/</a><p>
-    <p> URL (local) : <a id="customLocalUrl" target="_blank" href="localhost:5000/"/>localhost:5000/</a><p>
-    <input type="submit" value="Save custom path &#128190;" />
-    </form>
+   <div  class="tab visible" id = "c">
+
+       <h4 id="json">Dataset updated at: <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
+       <form method="post" action="/admin/refresh">
+         <input type="submit" value="Get / Refresh dataset &#8635;"/>
+       </form>
+
+       <h4 id="json">Default dataset id: <span id=''>  <%= date %>  </span></h4>
+       <p> URL (external) : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
+       <p> URL (local) : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
+       <form method="post" action="/admin/save/<%- date %>" >
+         <input type="submit" value="Save dataset &#128190;"/>
+       </form>
+
+       <form method="post" action="" id="submitCustom" >
+       <h4 id="json" >Customized dataset id: <input type="text" name="custom" id="customInput"  text=""> </input> </h4>
+       <p> URL (external) : <a id="customExtUrl" target="_blank" href="https://newsapp-carb11.herokuapp.com/"/>https://newsapp-carb11.herokuapp.com/</a><p>
+       <p> URL (local) : <a id="customLocalUrl" target="_blank" href="localhost:5000/"/>localhost:5000/</a><p>
+       <input type="submit" value="Save custom path &#128190;" />
+       </form>
+
+     </div>
+
+   <div  class="tab hidden" id = "p">
+     <h4>preview</h4>
+     <b>Sources(<%- resultArray.length %>)</b>
+     <p id="json-content"><%- (JSON.stringify(resultArray)).replace(/,/g, ",<br>") %><p>
+
+     </div>
+
+   <div  class="tab hidden" id = "b">browse
+
+     <h4>Generated views</h4>
+     <ul>
+       <%- dirList %>
+     </ul>
+   </div>
 
 
-    <br><br><br><br>
-    <b>Sources(<%- resultArray.length %>)</b>
-    <p id="json-content"><%- (JSON.stringify(resultArray)).replace(/,/g, ",<br>") %><p>
+   <div  class="tab hidden" id = "e">edit</div>
+   <div  class="tab hidden" id = "d">deploy</div>
+
+
+  </div>
+
 
 
 
@@ -39,6 +75,8 @@
       <div id="ln">Mon profil <a href="https://www.linkedin.com/in/pierrevautherin/">LinkedIn</a></div>
       <div id="v1">La première version de ce site : <a href="http://carb11.eu/newsroom/">Newsroom v1.0</a></div>
     </div>
+  </div>
+
   </div>
 </div>
 </body>
@@ -60,59 +98,29 @@ var customId = document.getElementById('customInput').value;
 
   }
 
-  console.log(customId);
+
+
+function showclass(e){   //ugly solutions...
+  document.getElementById("create").className = "tag";
+  document.getElementById("preview").className = "tag";
+  document.getElementById("browse").className = "tag";
+  document.getElementById("edit").className = "tag";
+  document.getElementById("deploy").className = "tag";
+  document.getElementById(e).className = "tag active";
+
+  document.getElementById('c').className = "tab hidden";
+  document.getElementById('p').className = "tab hidden";
+  document.getElementById('b').className = "tab hidden";
+  document.getElementById('e').className = "tab hidden";
+  document.getElementById('d').className = "tab hidden";
+  document.getElementById(e.substring(0,1)).className = "tab visible";
+  //alert(e.substring(0,1));
+}
+
+
+
+
+
+
+
 </script>
-
-<style>
-*, *:after, body {margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: georgia, sans-serif;
-
-    }
-
-body{
-  background: #e6e6e6;
-}
-
-#superbigcontainer{
-  width: 100%;
-  text-align: left;
-  background: #e6e6e6;
-  position: absolute;
-  top: 0;
-  left: 0;}
-
-#container{
-  padding: 30px;
-  background: white;
-  border-radius: 5px;
-  box-shadow:0 0 10px #999;
-  margin: 30px auto 30px 5%;
-  /*word-break: break-all;*/
-  width:720px;
-}
-
-
-
-#disclaimer{
-  font-style: italic;
-  margin: 5x 0 0 0;
-  opacity: 0.6;
-  /*animation: fadein 6s;*/
-}
-
-@keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 0.7; }
-}
-
-h1 {    margin: 0}
-
-#json {margin-top: 20px}
-#json-content {margin: 30px 0 0 10px;}
-#more{margin-top: 70px;}
-
-form, input {margin-top: 0};
-
-</style>
