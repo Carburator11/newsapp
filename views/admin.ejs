@@ -46,28 +46,31 @@
      </div>
 
    <div  class="tab hidden" id = "p">
-     <h4>preview</h4>
+
      <b>Sources(<%- resultArray.length %>)</b>
-     <p id="json-content"><%- (JSON.stringify(resultArray)).replace(/,/g, ",<br>") %><p>
+     <p id="json-content"><%- JSON.stringify(resultObject) %><p>
 
      </div>
 
-   <div  class="tab hidden" id = "b">browse
+   <div  class="tab hidden" id = "b">
 
-     <h4>Generated views</h4>
-     <ul>
-       <%- dirList %>
+
+     <ul id="viewDirs">
+       
      </ul>
    </div>
 
 
-   <div  class="tab hidden" id = "e">edit</div>
-   <div  class="tab hidden" id = "d">deploy</div>
+   <div  class="tab hidden" id = "e">
+     edit
+   </div>
+
+   <div  class="tab hidden" id = "d">
+     deploy
+   </div>
 
 
   </div>
-
-
 
 
     <div id ="more">
@@ -87,8 +90,7 @@
 
 var customId = document.getElementById('customInput').value;
 
-  function customInput(){
-
+function customInput(){
       customId = document.getElementById('customInput').value;
       document.getElementById("customExtUrl").href = "https://newsapp-carb11.herokuapp.com/" + customId ;
       document.getElementById("customExtUrl").innerHTML = "https://newsapp-carb11.herokuapp.com/" + customId ;
@@ -101,26 +103,36 @@ var customId = document.getElementById('customInput').value;
 
 
 function showclass(e){   //ugly solutions...
-  document.getElementById("create").className =  "inactive";
-  document.getElementById("preview").className = "inactive";
-  document.getElementById("browse").className =  "inactive";
-  document.getElementById("edit").className =    "inactive";
-  document.getElementById("deploy").className =  "inactive";
-  document.getElementById(e).className =         "active";
+      document.getElementById("create").className =  "inactive";
+      document.getElementById("preview").className = "inactive";
+      document.getElementById("browse").className =  "inactive";
+      document.getElementById("edit").className =    "inactive";
+      document.getElementById("deploy").className =  "inactive";
+      document.getElementById(e).className =         "active";
 
-  document.getElementById('c').className = "tab hidden";
-  document.getElementById('p').className = "tab hidden";
-  document.getElementById('b').className = "tab hidden";
-  document.getElementById('e').className = "tab hidden";
-  document.getElementById('d').className = "tab hidden";
-  document.getElementById(e.substring(0,1)).className = "tab visible";
-  //alert(e.substring(0,1));
+      document.getElementById('c').className = "tab hidden";
+      document.getElementById('p').className = "tab hidden";
+      document.getElementById('b').className = "tab hidden";
+      document.getElementById('e').className = "tab hidden";
+      document.getElementById('d').className = "tab hidden";
+      document.getElementById(e.substring(0,1)).className = "tab visible";
+      //alert(e.substring(0,1));
 }
 
 
 
+function showDirList(){
 
+  for (var i = 0 ; i < <%- JSON.stringify(dirList)%>.length ; i++) {
+    var filename = <%- JSON.stringify(dirList)%>[i];
+    var id =  filename.substring(0, (filename.length - 5));
+    var el = "<li>" + filename + "   <a href='http://localhost:5000/admin/edit/"+ id +"'>edit(local)</a>";
+    el    +=  "   <a href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"'>edit(ext)</a></li>" ;
+   document.getElementById('viewDirs').innerHTML += el ;
+      }
+}
 
+showDirList();
 
 
 </script>

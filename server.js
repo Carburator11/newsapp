@@ -17,7 +17,7 @@
         ];
 
     var resultArray = []; //DO NOT modify ! harcoded in the result callback function
-
+    var resultObject = {}
     var date = timer.dateShort();
     var lastUpdate = timer.dateFull();
     var history = {};
@@ -48,7 +48,7 @@
     app.get('/admin', function(req, res) {
       //res.setHeader('Content-Type', 'text/html');
       getJson(inputArray, result);
-      res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate, dirList:dirList});
+      res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate, dirList:dirList, resultObject:resultObject});
 
     });
 
@@ -86,13 +86,17 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){resultArray = [];}
-              callback(body);
+              var src = body.source;
+              callback(body, src);
           });
     }
 
-    var result = function(e){
+    var result = function(e, src){
+        resultObject.headlines = ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"] ;
+        resultObject[src] = e ;
         resultArray.push(e);
-        console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
+        console.log("   "+  src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
+
         lastUpdate = timer.dateFull();
         count++;                          //count is a global variable
           if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
@@ -119,13 +123,9 @@ function save(e, id){
 };
 
 
-
-
-
-
-var dirList = "";
+var dirList = [];
 function jsonDir(){
-  dirList = "";
+  dirList = [];
   fs.readdir('./data/', (err, files) => {      //data directory path hardcoded !!
     files.forEach(file => { exportJsonDirList(file);   });
   });
@@ -134,6 +134,6 @@ function jsonDir(){
 
 
 function exportJsonDirList(e){
-  dirList += "<ul>"+e+"</ul>";
-  console.log(dirList);
+  dirList.push(e);
+
 }
