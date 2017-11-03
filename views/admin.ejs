@@ -14,11 +14,11 @@
 
     <h1>Admin tool v1.0</h1>
     <div class = "menu">
-     <button class="active" id="create" onclick="showclass('create')">Create</button>
-     <button class="" id="preview"      onclick="showclass('preview')">Preview</button>
-     <button class="" id="browse"       onclick="showclass('browse')">Browse</button>
-     <button class="" id="edit"         onclick="showclass('edit')">Edit</button>
-     <button class="" id="deploy"       onclick="showclass('deploy')">Deploy</button>
+     <button class="active"   id="create"       onclick="showclass('create')">Create</button>
+     <button class="inactive" id="preview"      onclick="showclass('preview')">Preview</button>
+     <button class="inactive" id="browse"       onclick="showclass('browse')">Browse</button>
+     <button class="inactive" id="edit"         onclick="showclass('edit')">Edit</button>
+     <button class="inactive" id="deploy"       onclick="showclass('deploy')">Deploy</button>
      </div>
    <div class = "content">
 
@@ -37,7 +37,7 @@
        </form>
 
        <form method="post" action="" id="submitCustom" >
-       <h4 id="json" >Customized dataset id: <input type="text" name="custom" id="customInput"  text=""> </input> </h4>
+       <h4 id="json" >Customized dataset id: <input type="text" name="custom" id="customInput"  text=""> </input><span id="customButton" onclick="customInput()">&#9655;</span> </h4>
        <p> URL (external) : <a id="customExtUrl" target="_blank" href="https://newsapp-carb11.herokuapp.com/"/>https://newsapp-carb11.herokuapp.com/</a><p>
        <p> URL (local) : <a id="customLocalUrl" target="_blank" href="localhost:5000/"/>localhost:5000/</a><p>
        <input type="submit" value="Save custom path &#128190;" />
@@ -101,12 +101,12 @@ var customId = document.getElementById('customInput').value;
 
 
 function showclass(e){   //ugly solutions...
-  document.getElementById("create").className = "tag";
-  document.getElementById("preview").className = "tag";
-  document.getElementById("browse").className = "tag";
-  document.getElementById("edit").className = "tag";
-  document.getElementById("deploy").className = "tag";
-  document.getElementById(e).className = "tag active";
+  document.getElementById("create").className =  "inactive";
+  document.getElementById("preview").className = "inactive";
+  document.getElementById("browse").className =  "inactive";
+  document.getElementById("edit").className =    "inactive";
+  document.getElementById("deploy").className =  "inactive";
+  document.getElementById(e).className =         "active";
 
   document.getElementById('c').className = "tab hidden";
   document.getElementById('p').className = "tab hidden";

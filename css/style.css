@@ -7,11 +7,17 @@
 
     }
 
-h1, h2, h3, h4, p {margin-bottom: 6px;}
-
 body{
   background: #e6e6e6;
 }
+
+h1 {
+    margin: 10px 0 50px 0;}
+
+h2, h3, h4  {
+  margin: 10px 0 6px 0;}
+
+
 
 #superbigcontainer{
   width: 100%;
@@ -31,29 +37,66 @@ body{
   width:720px;
 }
 
+#more{margin-top: 25px;}
+
 .content{
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-top: -5px;
   border-top-left-radius: 0;
-
+  min-height: 300px;
 }
 
-.menu button{
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-
-}
 
 .active {
-  border-bottom: none;
-  background-color: inherit;
+
+  background-color: white;
   margin-bottom: 5px;
+  z-index: 999;
+  padding: 8px;
+
+  background-color: white;
+  margin-bottom: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 0;
+  border-left-width: 1px;
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: none;
+  border-left-style: solid;
+  border-top-color: rgb(204, 204, 204);
+  border-right-color: rgb(204, 204, 204);
+  border-bottom-color: white;
+  border-left-color: rgb(204, 204, 204);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+
 }
+
+.inactive {
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 8px 8px 6.5px 8px ;
+}
+
+.menu{
+  position:absolute;
+  top: 121px;}
+
+.tag{
+  position:absolute;
+  z-index: 999;}
 
 
 .hidden{display: none}
 .visible{display: initial;}
+
+#customButton{cursor: pointer;}
+#customButton:hover{ text-shadow:  0 2px 2px gray;}
