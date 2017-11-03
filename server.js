@@ -52,9 +52,15 @@
 
     });
 
+    app.get('/admin/suppr/:id', function(req, res) {
+        fs.unlinkSync('data/' + req.params.id + ".json");
+        console.log("suppressing : " + req.params.id + ".json");
+        res.redirect(303, '/admin');
+    });
+
     app.get('/:id', function(req, res) {
       //res.setHeader('Content-Type', 'text/html');
-      //res.send("hello!");
+
       var object = require('./data/' + req.params.id + '.json');
       res.send(JSON.stringify(object));
       //res.render('pageview.ejs',{id:req.params.id, resultArray: resultArray, lastUpdate: lastUpdate, object: object});

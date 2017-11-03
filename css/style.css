@@ -17,6 +17,10 @@ h1 {
 h2, h3, h4  {
   margin: 10px 0 6px 0;}
 
+ul{
+  margin: 15px;
+}
+
 
 
 #superbigcontainer{
@@ -100,3 +104,13 @@ h2, h3, h4  {
 
 #customButton{cursor: pointer;}
 #customButton:hover{ text-shadow:  0 2px 2px gray;}
+
+
+.link{
+  color:blue;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 15px;
+}
+
+a {margin-left: 12px;}

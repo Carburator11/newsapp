@@ -22,6 +22,7 @@
      </div>
    <div class = "content">
 
+   <!-- CREATE tab :  enables to fetch and save a dataset in default/customized path-->
    <div  class="tab visible" id = "c">
 
        <h4 id="json">Dataset updated at: <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
@@ -45,6 +46,7 @@
 
      </div>
 
+  <!--PREVIEW tab-->
    <div  class="tab hidden" id = "p">
 
      <b>Sources(<%- resultArray.length %>)</b>
@@ -52,19 +54,21 @@
 
      </div>
 
+  <!--BROWSE tab :  -->
    <div  class="tab hidden" id = "b">
-
-
+     <a href="">reload page</a>
      <ul id="viewDirs">
-       
      </ul>
    </div>
 
-
+   <!--EDIT tab-->
    <div  class="tab hidden" id = "e">
-     edit
+     <p class = "link" onclick= "showclass('browse')">Browse</p>
+     or
+     <p id="">Edit current dataset:</p>
    </div>
 
+   <!--DEPLOY tab : I don't know yet what I'll use it for...-->
    <div  class="tab hidden" id = "d">
      deploy
    </div>
@@ -88,8 +92,11 @@
 
 
 
-var customId = document.getElementById('customInput').value;
 
+
+
+//generates the URLs
+var customId = document.getElementById('customInput').value;
 function customInput(){
       customId = document.getElementById('customInput').value;
       document.getElementById("customExtUrl").href = "https://newsapp-carb11.herokuapp.com/" + customId ;
@@ -97,12 +104,11 @@ function customInput(){
       document.getElementById("customLocalUrl").href = "localhost:5000/" + customId ;
       document.getElementById("customLocalUrl").innerHTML = "localhost:5000/" + customId ;
       document.getElementById("submitCustom").action = "/admin/save/"+ customId;
-
   }
 
 
-
-function showclass(e){   //ugly solutions...
+//ugly solution... could have used Jquery toggleclasses but I don't want too many external modules on this project
+function showclass(e){
       document.getElementById("create").className =  "inactive";
       document.getElementById("preview").className = "inactive";
       document.getElementById("browse").className =  "inactive";
@@ -116,23 +122,39 @@ function showclass(e){   //ugly solutions...
       document.getElementById('e').className = "tab hidden";
       document.getElementById('d').className = "tab hidden";
       document.getElementById(e.substring(0,1)).className = "tab visible";
-      //alert(e.substring(0,1));
+
+      sessionStorage.setItem("lastview", e);
+      //storing last page viewed in sessionStorage
 }
 
 
-
+//this function populates the BROWSE tab
+//function is called below
 function showDirList(){
+  document.getElementById('viewDirs').innerHTML = ""; //initializing
 
   for (var i = 0 ; i < <%- JSON.stringify(dirList)%>.length ; i++) {
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
-    var el = "<li>" + filename + "   <a href='http://localhost:5000/admin/edit/"+ id +"'>edit(local)</a>";
-    el    +=  "   <a href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"'>edit(ext)</a></li>" ;
-   document.getElementById('viewDirs').innerHTML += el ;
+
+
+    var el = "<li>" + filename + "<span class = 'link' onclick= 'edit("+ id +")'>edit</span>";
+    el    +=  "<a href='http://localhost:5000/admin/suppr/"+ id +"'>suppr.(local)</a>";
+    el    +=  "<a href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>suppr.(ext)</a>";
+    el    +=  "</li>";
+    document.getElementById('viewDirs').innerHTML += el ;
       }
 }
 
+function edit(e){
+    //to be continued
+    showclass("edit");
+}
+
+
 showDirList();
+showclass(sessionStorage.getItem("lastview"));
+
 
 
 </script>
