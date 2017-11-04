@@ -56,6 +56,7 @@
   <!--PREVIEW tab-->
    <div  class="tab hidden" id = "p">
      <br>
+     <p>PL : preview (local) ; PE : preview (external) ; EL : edit (local) ; EE : edit (external) ; SL : suppress (local) ; SE : suppress (external) ;</p> 
      <b>Id: <%- resultArray[0].id %> </b><br>(sources: <%- resultArray.length - 1 %>) <!-- -1 because "headlines object" not counted as a "source" -->
      <br><br>
 
@@ -114,11 +115,12 @@ function showDirList(){
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
     var el = "<li>" + filename ;
-    el    +=  "<a id='editLinks' class='link' href="" onclick= ''>preview</span>";
-    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>edit(L)</span>";
-    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>edit(E)</span>";
-    el    +=  "<a id='editLinks' href='http://localhost:5000/admin/suppr/"+ id +"'>suppr(L)</a>";
-    el    +=  "<a id='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>suppr(E)</a>";
+    el    +=  "<a id='editLinks' class='link' href='' onclick= ''>PL</span></a>";
+    el    +=  "<a id='editLinks' class='link' href='' onclick= ''>PE</span></a>";
+    el    +=  "<a id='editLinks'class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
+    el    +=  "<a id='editLinks'class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
+    el    +=  "<a id='editLinks' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
+    el    +=  "<a id='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
     el    +=  "</li>";
     document.getElementById('viewDirs').innerHTML += el ;
       }
