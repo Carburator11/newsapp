@@ -60,6 +60,12 @@
         res.redirect(303, '/admin');
     });
 
+    app.get('/admin/preview/:id', function(req, res) {
+        openFile(req.params.id, processFile);
+        res.redirect(303, '/admin');
+    });
+
+
 
     app.get('/:id', function(req, res) {
       var object = require('./data/' + req.params.id + '.json');
@@ -103,7 +109,7 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){
-                resultArray = [{id: "not deployed", headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]}];
+                resultArray = [{id: timer.dateShort(), headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]}];
               }
               var src = body.source;
               callback(body, src);
@@ -114,7 +120,6 @@
 
         resultArray.push(e);
         console.log("   "+  src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
-
         lastUpdate = timer.dateFull();
         count++;                          //count is a global variable
           if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
@@ -133,7 +138,7 @@ function save(e, id){
 
     //console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
     lastUpdate = timer.dateFull();
-    e[0].id = id;
+    resultArray[0].id = id;
     console.log("okay ! " +  JSON.stringify(e));
       fs.writeFile("data/"+ id +".json", JSON.stringify(e), function (err) {
         if (err) throw err;
@@ -162,13 +167,15 @@ function exportJsonDirList(e){
 function openFile(e, callback){
   fs.readFile("./data/"+e+".json", "utf8", function read(err, data){
       if(err){throw err}
-      console.log("./data/"+e+".json")
-      callback(data);
+      console.log("openfile: ./data/"+e+".json");
+      var obj = JSON.parse(data);
+      callback(obj);
+
   })
 
 }
 
 function processFile(e){
-  resultArray = e;
-  console.log((JSON.stringify(currentFile.current)).substring(0, 256));
+  resultArray = e ;
+  console.log("open file type= " + typeof(e));
 }

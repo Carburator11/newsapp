@@ -34,6 +34,7 @@ function showclass(e){
       document.getElementById(e.substring(0,1)).className = "tab visible";
 
       sessionStorage.setItem("lastview", e);
+      currentId();
 }
 
 
@@ -42,19 +43,22 @@ function showclass(e){
 //storing last page viewed in sessionStorage
 showclass(sessionStorage.getItem("lastview"));
 
-document.getElementById("current").innerHTML =  sessionStorage.getItem("currentId") ;   //;
+
+
+
 
 function edit(e){
   sessionStorage.setItem("currentId", e);
-  document.getElementById("current").innerHTML = sessionStorage.getItem("currentId");
+  currentId();
   showclass("edit");
 }
 
 function preview(e){
   sessionStorage.setItem("currentId", e);
-  
-  showclass("edit");
+  currentId();
+  showclass("preview");
 }
+
 
 
 //

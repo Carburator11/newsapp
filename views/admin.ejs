@@ -31,14 +31,11 @@
          <input type="submit" value="Get / Refresh dataset &#8635;"/>
        </form>
        <br>
-       <p class = "link" onclick= "showclass('deploy')">Deploy !</p>
-
-
      </div>
 
      <!--DEPLOY tab : -->
      <div  class="tab hidden" id = "d">
-       <h4 id="json">Save with default id: <span>  <%= date %>  </span></h4>
+       <h4 id="json">Save with default id: <span id="current">   </span></h4>
        <p> URL (external) : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
        <p> URL (local) : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
        <form method="post" action="/admin/save/<%- date %>" >
@@ -56,8 +53,8 @@
   <!--PREVIEW tab-->
    <div  class="tab hidden" id = "p">
      <br>
-     <p>PL : preview (local) ; PE : preview (external) ; EL : edit (local) ; EE : edit (external) ; SL : suppress (local) ; SE : suppress (external) ;</p> 
-     <b>Id: <%- resultArray[0].id %> </b><br>(sources: <%- resultArray.length - 1 %>) <!-- -1 because "headlines object" not counted as a "source" -->
+
+     <b>Id: <span  id="current-preview"></span> </b><br> <!-- -1 because "headlines object" not counted as a "source" -->
      <br><br>
 
      <p id="json-content"><%- JSON.stringify(resultArray) %><p>
@@ -67,13 +64,14 @@
   <!--BROWSE tab :  -->
    <div  class="tab hidden" id = "b">
      <a href="">reload page</a>
+     <p>PL : preview (local) ; PE : preview (external) ; EL : edit (local) ; EE : edit (external) ; SL : suppress (local) ; SE : suppress (external)</p>
      <ul id="viewDirs">
      </ul>
    </div>
 
    <!--EDIT tab-->
    <div  class="tab hidden" id = "e">
-     <p>Currently editing <b><span id="current"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
+     <p>Currently editing <b><span id="current-edit"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
       <%- resultArray.headlines %>
 
 
@@ -115,18 +113,31 @@ function showDirList(){
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
     var el = "<li>" + filename ;
-    el    +=  "<a id='editLinks' class='link' href='' onclick= ''>PL</span></a>";
-    el    +=  "<a id='editLinks' class='link' href='' onclick= ''>PE</span></a>";
-    el    +=  "<a id='editLinks'class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
-    el    +=  "<a id='editLinks'class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
-    el    +=  "<a id='editLinks' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
-    el    +=  "<a id='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
+    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PL</span></a>";
+    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
+    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
+    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
+    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
+    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
     el    +=  "</li>";
     document.getElementById('viewDirs').innerHTML += el ;
       }
+
 }
 
 showDirList();
+
+
+currentId();
+
+function currentId(){
+  let cur = <%- JSON.stringify(resultArray) %> ;
+  document.getElementById("current").innerHTML = cur[0].id ;
+  document.getElementById("current-preview").innerHTML = cur[0].id ;
+  document.getElementById("current-edit").innerHTML = cur[0].id ;
+  //alert("currentId: " + typeof(cur[0].id) + ".. " + cur[0].id);
+
+}
 
 
 </script>
