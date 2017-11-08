@@ -72,7 +72,16 @@
    <!--EDIT tab-->
    <div  class="tab hidden" id = "e">
      <p>Currently editing <b><span id="current-edit"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
-      <%- resultArray.headlines %>
+
+      <br><br>
+
+      <b>Headlines</b><br>
+      <%- JSON.stringify(resultArray[0].headlines) %>
+
+      <br><br>
+      <span id = "out"><span>
+
+
 
 
 
@@ -106,7 +115,7 @@
 
 
 //this function populates the BROWSE tab
-//couldn't move it to external js file because of strange behavior of the Express variables....
+//couldn't move it to external js file because of strange behavior of the Express variables
 function showDirList(){
   document.getElementById('viewDirs').innerHTML = ""; //initializing
   for (var i = 0 ; i < <%- JSON.stringify(dirList)%>.length ; i++) {
@@ -138,6 +147,30 @@ function currentId(){
   //alert("currentId: " + typeof(cur[0].id) + ".. " + cur[0].id);
 
 }
+
+
+function editPrev(src, out){
+  let input = <%- JSON.stringify(resultArray) %>;
+  let output = "";
+  output +=  "<b>";
+  output += (JSON.stringify(input[src].source)).replace(/"/g,"").toUpperCase();
+  output += "</b><br><br>";
+
+  for(var i = 0 ; i < 5 ; i++){
+
+
+      output +=  JSON.stringify(input[src].articles[i]);
+      output += "<br><br>";
+      }
+
+  document.getElementById(out).innerHTML += output;
+}
+
+
+
+editPrev(1, "out");
+
+
 
 
 </script>
