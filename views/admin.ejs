@@ -71,13 +71,14 @@
 
    <!--EDIT tab-->
    <div  class="tab hidden" id = "e">
-     <p>Currently editing <b><span id="current-edit"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
-
+    <p>Currently editing <b><span id="current-edit"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
+    <p>Dataset generated at:  <span id="current-date"></span></p>
       <br><br>
 
       <b>Headlines</b><br>
-      <%- JSON.stringify(resultArray[0].headlines) %>
-
+      0. <%- JSON.stringify(resultArray[0].headlines[0]) %><br>
+      1. <%- JSON.stringify(resultArray[0].headlines[1]) %><br>
+      2. <%- JSON.stringify(resultArray[0].headlines[2]) %><br>
       <br><br>
       <span id = "out"><span>
 
@@ -144,32 +145,41 @@ function currentId(){
   document.getElementById("current").innerHTML = cur[0].id ;
   document.getElementById("current-preview").innerHTML = cur[0].id ;
   document.getElementById("current-edit").innerHTML = cur[0].id ;
+  document.getElementById("current-date").innerHTML = cur[0].genTime ;
   //alert("currentId: " + typeof(cur[0].id) + ".. " + cur[0].id);
 
 }
 
 
+
 function editPrev(src, out){
   let input = <%- JSON.stringify(resultArray) %>;
   let output = "";
-  output +=  "<b>";
-  output += (JSON.stringify(input[src].source)).replace(/"/g,"").toUpperCase();
+  let datasetSource = JSON.stringify(input[src].source).replace(/"/g,"");
+
+
+  output +=  "<br><b style = ''>";
+  output += datasetSource.replace(/"/g,"").toUpperCase();
   output += "</b><br><br>";
 
   for(var i = 0 ; i < 5 ; i++){
-
-
-      output +=  JSON.stringify(input[src].articles[i]);
-      output += "<br><br>";
+      output += "<div style= 'margin-left: 15px'>"
+      output +=  "<b>"+JSON.stringify(input[src].articles[i].title).replace(/"/g,"") +"</b>";
+      output +=  "<span style='font-size: 12px;color:gray'>    -  " + datasetSource + "-" + i +"</span><br>";
+      output +=  "<i>by " + JSON.stringify(input[src].articles[i].author).replace(/"/g,"") +"</i><br>";
+      output +=  "<a href="+JSON.stringify(input[src].articles[i].url).replace(/"/g,"") +">";
+      output +=  "<img src="+ JSON.stringify(input[src].articles[i].urlToImage).replace(/"/g,"") +" width= 'auto' height= '120px' /></a><br>";
+      output +=  "<span style='font-size: 12px;color:gray'>"+JSON.stringify(input[src].articles[i].publishedAt).replace(/"/g,"") +"</span>";
+      output += "<br><br></div>";
       }
 
   document.getElementById(out).innerHTML += output;
 }
 
 
-
-editPrev(1, "out");
-
+  for(var i = 1 ; i < 5 ; i++){
+      editPrev(i, "out");
+  }
 
 
 

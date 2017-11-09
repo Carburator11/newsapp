@@ -69,8 +69,8 @@
 
     app.get('/:id', function(req, res) {
       var object = require('./data/' + req.params.id + '.json');
-      res.send(JSON.stringify(object));
-      //res.render('pageview.ejs',{id:req.params.id, resultArray: resultArray, lastUpdate: lastUpdate, object: object});
+      //res.send(JSON.stringify(object));
+      res.render('pageview.ejs',{id:req.params.id, object: object});
     });
 
 
@@ -109,10 +109,12 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){
-                resultArray = [{id: timer.dateShort(), headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]}];
+                resultArray = [{id: timer.dateShort(), genTime: timer.dateFull(), headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]}];
               }
-              var src = body.source;
-              callback(body, src);
+              //if(error){console.log(error);}   //error management added 08/11/2017 to handle offline
+              if(typeof(body) == "object"){
+                 var src = body.source;
+                 callback(body, src);}
           });
     }
 
