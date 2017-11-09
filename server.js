@@ -17,6 +17,7 @@
         ];
 
     var resultArray = []; //DO NOT modify ! harcoded in the result callback function
+    var resultObj = {};
     var date = timer.dateShort();
     var lastUpdate = timer.dateFull();
     var currentFile = [];
@@ -39,7 +40,7 @@
 
     app.get('/admin', function(req, res) {
       getJson(inputArray, result);
-      res.render('admin.ejs',{date: date, resultArray: resultArray, lastUpdate: lastUpdate, dirList:dirList});
+      res.render('admin.ejs',{date: date, resultArray: resultArray, resultObj:resultObj, lastUpdate: lastUpdate, dirList:dirList});
 
     });
 
@@ -91,13 +92,13 @@
     //external
     var count = 0;
 
-    function init(e){
-      e = []
-      console.log('initializing resultArray');
-      let obj = {headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]};
-      e.push(obj);
-
-    }
+    //not used...
+    //function init(e){
+    //  e = []
+    //  console.log('initializing resultArray');
+    //  let obj = {headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]};
+    //  e.push(obj);
+      //}
 
 
     //http request via request module
@@ -109,9 +110,13 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){
-                resultArray = [{id: timer.dateShort(), genTime: timer.dateFull(), headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]}];
-              }
-              //if(error){console.log(error);}   //error management added 08/11/2017 to handle offline
+                let md = {id: timer.dateShort(), genTime: timer.dateFull(), headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]};
+                resultArray = [md];
+                resultObj = {metadata:md, content:{}};
+              };
+
+
+              //if(error){console.log(error);}   //error management to be added to handle offline
               if(typeof(body) == "object"){
                  var src = body.source;
                  callback(body, src);}
@@ -120,13 +125,16 @@
 
     var result = function(e, src){
 
+        var truc = src ;
+        var obj = {};
         resultArray.push(e);
-        console.log("   "+  src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
+        resultObj["content"][truc] = e;
+        console.log("    "+src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
         lastUpdate = timer.dateFull();
         count++;                          //count is a global variable
           if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
                 count = 0;
-                jsonDir();
+                jsonDir();                  // Recursive function
                 console.log("   jsonDir");
             }
 

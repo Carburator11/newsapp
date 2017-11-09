@@ -57,7 +57,7 @@
      <b>Id: <span  id="current-preview"></span> </b><br> <!-- -1 because "headlines object" not counted as a "source" -->
      <br><br>
 
-     <p id="json-content"><%- JSON.stringify(resultArray) %><p>
+     <p id="json-content"><%- JSON.stringify(resultObj) %><p>
 
      </div>
 
@@ -75,11 +75,11 @@
     <p>Dataset generated at:  <span id="current-date"></span></p>
       <br><br>
 
-      <b>Headlines</b><br>
-      0. <%- JSON.stringify(resultArray[0].headlines[0]) %><br>
-      1. <%- JSON.stringify(resultArray[0].headlines[1]) %><br>
-      2. <%- JSON.stringify(resultArray[0].headlines[2]) %><br>
-      <br><br>
+      <b>Headlines</b> (based on resultObj)<br>
+      0. <%- JSON.stringify(resultObj.metadata.headlines[0]) %><br>
+      1. <%- JSON.stringify(resultObj.metadata.headlines[1]) %><br>
+      2. <%- JSON.stringify(resultObj.metadata.headlines[2]) %><br>
+      <br>
       <span id = "out"><span>
 
 
@@ -151,7 +151,7 @@ function currentId(){
 }
 
 
-
+//display a preview based on resultArray
 function editPrev(src, out){
   let input = <%- JSON.stringify(resultArray) %>;
   let output = "";
@@ -177,10 +177,30 @@ function editPrev(src, out){
 }
 
 
-  for(var i = 1 ; i < 5 ; i++){
-      editPrev(i, "out");
+  //for(var i = 1 ; i < 5 ; i++){
+  //    editPrev(i, "out");
+  //}
+
+  //display a preview based on resultArray
+  function editPrevObj(out){
+    let input = <%- JSON.stringify(resultObj) %>;
+    let output = "";
+
+    for(key in input.content){
+      output +=  "<br><b style = ''>";
+      output += key.replace(/"/g,"").toUpperCase();
+      output += "</b><br><br>";
+      
+
+          }
+
+
+
+
+    document.getElementById(out).innerHTML += output;
   }
 
+editPrevObj("out");
 
 
 </script>
