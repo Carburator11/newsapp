@@ -3,22 +3,39 @@
    %></title>
 </head>
 
+<%
+ var head1src = object.metadata.headlines.head1.src ;
+ var head1num = object.metadata.headlines.head1.art ;
+ var head2src = object.metadata.headlines.head2.src ;
+ var head2num = object.metadata.headlines.head2.art ;
+ var head3src = object.metadata.headlines.head3.src ;
+ var head3num = object.metadata.headlines.head3.art ;
+ var toto = "glutt"; var fr = "";
 
+
+ %>
 
 URL de cette page : <a target="_blank" href='https://newsapp-carb11.herokuapp.com/<%= id %>'>https://newsapp-carb11.herokuapp.com/<%= id %></a>
 <br>
 URL de cette page en local : <a target="_blank" href='http://localhost:5000/<%= id %>'>http://localhost:5000/<%= id %></a>
 <br>
 <br>
-Dataset généré à : <%= object[0].genTime %>
+Dataset généré à : <%= JSON.stringify(object.metadata.genTime) %>
 <br>
 <br>
-<p>Headlines:   <%= object[0].headlines[0] %></p>
+<p>Headlines:</p>
+<br>
+<br><%- JSON.stringify( object.content[head1src].articles[head1num] ) %>
 
-<p><%= object[1].articles[0].title %></p>
+<br>
+<br><%- JSON.stringify( object.content.cnn.articles[0] ) %>
 
-<p><%= object[2].articles[0].title %></p>
 
-<p><%= object[3].articles[0].title %></p>
 
-<p><%= object[4].articles[0].title %></p>
+
+<script>
+
+
+
+
+</script>

@@ -46,15 +46,14 @@
        <h4 id="json" >Save with custom id: <input type="text" name="custom" id="customInput"  text=""> </input><span id="customButton" onclick="customInput()">&#9655;</span> </h4>
        <p> URL (external) : <a id="customExtUrl" target="_blank" href="https://newsapp-carb11.herokuapp.com/"/>https://newsapp-carb11.herokuapp.com/</a><p>
        <p> URL (local) : <a id="customLocalUrl" target="_blank" href="localhost:5000/"/>localhost:5000/</a><p>
-       <input type="submit" value="Save custom id &#128190;" />
+       <input type="submit" value="Save custom id &#128190;" onclick="customInput()" />
        </form>
      </div>
 
   <!--PREVIEW tab-->
    <div  class="tab hidden" id = "p">
      <br>
-
-     <b>Id: <span  id="current-preview"></span> </b><br> <!-- -1 because "headlines object" not counted as a "source" -->
+     <b>Id: <span  id="current-preview"></span> </b><br>
      <br><br>
 
      <p id="json-content"><%- JSON.stringify(resultObj) %><p>
@@ -141,47 +140,17 @@ showDirList();
 currentId();
 
 function currentId(){
-  let cur = <%- JSON.stringify(resultArray) %> ;
-  document.getElementById("current").innerHTML = cur[0].id ;
-  document.getElementById("current-preview").innerHTML = cur[0].id ;
-  document.getElementById("current-edit").innerHTML = cur[0].id ;
-  document.getElementById("current-date").innerHTML = cur[0].genTime ;
-  //alert("currentId: " + typeof(cur[0].id) + ".. " + cur[0].id);
+  let cur = <%- JSON.stringify(resultObj.metadata) %> ;
+  document.getElementById("current").innerHTML = cur.id ;
+  document.getElementById("current-preview").innerHTML = cur.id ;
+  document.getElementById("current-edit").innerHTML = cur.id ;
+  document.getElementById("current-date").innerHTML = cur.genTime ;
 
 }
 
 
-//display a preview based on resultArray
-function editPrev(src, out){
-  let input = <%- JSON.stringify(resultArray) %>;
-  let output = "";
-  let datasetSource = JSON.stringify(input[src].source).replace(/"/g,"");
 
-
-  output +=  "<br><b style = ''>";
-  output += datasetSource.replace(/"/g,"").toUpperCase();
-  output += "</b><br><br>";
-
-  for(var i = 0 ; i < 5 ; i++){
-      output += "<div style= 'margin-left: 15px'>"
-      output +=  "<b>"+JSON.stringify(input[src].articles[i].title).replace(/"/g,"") +"</b>";
-      output +=  "<span style='font-size: 12px;color:gray'>    -  " + datasetSource + "-" + i +"</span><br>";
-      output +=  "<i>by " + JSON.stringify(input[src].articles[i].author).replace(/"/g,"") +"</i><br>";
-      output +=  "<a href="+JSON.stringify(input[src].articles[i].url).replace(/"/g,"") +">";
-      output +=  "<img src="+ JSON.stringify(input[src].articles[i].urlToImage).replace(/"/g,"") +" width= 'auto' height= '120px' /></a><br>";
-      output +=  "<span style='font-size: 12px;color:gray'>"+JSON.stringify(input[src].articles[i].publishedAt).replace(/"/g,"") +"</span>";
-      output += "<br><br></div>";
-      }
-
-  document.getElementById(out).innerHTML += output;
-}
-
-
-  //for(var i = 1 ; i < 5 ; i++){
-  //    editPrev(i, "out");
-  //}
-
-  //display a preview based on resultArray
+  //display a preview based on resultObj
   function editPrevObj(out){
     let input = <%- JSON.stringify(resultObj) %>;
     let output = "";
@@ -190,13 +159,18 @@ function editPrev(src, out){
       output +=  "<br><b style = ''>";
       output += key.replace(/"/g,"").toUpperCase();
       output += "</b><br><br>";
-      
-
+      for(var i = 0 ; i < 5 ; i++){
+          let art = input.content[key]["articles"];
+          output += "<div style= 'margin-left: 15px'>"
+          output +=  "<b>"+ (JSON.stringify(art[i].title)).replace(/"/g,"") +"</b>";
+          output +=  "<span style='font-size: 12px;color:gray'>    -  " + key + "-" + i +"</span><br>";
+          output +=  "<i>by " + JSON.stringify(art[i].author).replace(/"/g,"") +"</i><br>";
+          output +=  "<a href="+JSON.stringify(art[i].url).replace(/"/g,"") +">";
+          output +=  "<img src="+ JSON.stringify(art[i].urlToImage).replace(/"/g,"") +" width= 'auto' height= '120px' /></a><br>";
+          output +=  "<span style='font-size: 12px;color:gray'>"+JSON.stringify(art[i].publishedAt).replace(/"/g,"") +"</span>";
+          output += "<br><br></div>";
           }
-
-
-
-
+      }
     document.getElementById(out).innerHTML += output;
   }
 

@@ -17,13 +17,11 @@
         ];
 
     var resultArray = []; //DO NOT modify ! harcoded in the result callback function
-    var resultObj = {};
+    var resultObj = {};   //DO NOT modify ! harcoded in the result callback function
     var date = timer.dateShort();
     var lastUpdate = timer.dateFull();
     var currentFile = [];
-
-
-    console.log("timer:    "+ date)
+    var count = 0;
 
     app.set('port', (process.env.PORT || 5000));
     app.use(bodyParser.urlencoded({  extended: true }));
@@ -35,18 +33,14 @@
       res.redirect(303, '/admin');
     });
 
-
-
-
     app.get('/admin', function(req, res) {
       getJson(inputArray, result);
       res.render('admin.ejs',{date: date, resultArray: resultArray, resultObj:resultObj, lastUpdate: lastUpdate, dirList:dirList});
-
     });
 
     app.post('/admin/save/:id', function(req, res) {
       console.log(req.body, 'saving dataset!');
-      save(resultArray, req.params.id);
+      save(resultObj, req.params.id);
       res.redirect(303, '/admin');
     });
 
@@ -71,7 +65,7 @@
     app.get('/:id', function(req, res) {
       var object = require('./data/' + req.params.id + '.json');
       //res.send(JSON.stringify(object));
-      res.render('pageview.ejs',{id:req.params.id, object: object});
+      res.render('pageview.ejs',{id:req.params.id, object: resultObj});
     });
 
 
@@ -89,18 +83,6 @@
 
 
 
-    //external
-    var count = 0;
-
-    //not used...
-    //function init(e){
-    //  e = []
-    //  console.log('initializing resultArray');
-    //  let obj = {headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]};
-    //  e.push(obj);
-      //}
-
-
     //http request via request module
     function getJson(array, callback){
 
@@ -110,8 +92,16 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){
-                let md = {id: timer.dateShort(), genTime: timer.dateFull(), headlines: ["cnn.articles[0]", "bbc-news.articles[0]", "the-guardian-uk[0]"]};
-                resultArray = [md];
+                let md = {
+                  id: timer.dateShort(),  //updated by save function if custom name provided
+                  genTime: timer.dateFull(),
+                  headlines: {
+                    head1:{src:"cnn", art: 0},
+                    head2:{src:"the-guardian-uk", art: 0},
+                    head3:{src:"bbc-news", art: 0}
+                  }
+                };
+
                 resultObj = {metadata:md, content:{}};
               };
 
@@ -124,10 +114,8 @@
     }
 
     var result = function(e, src){
-
         var truc = src ;
         var obj = {};
-        resultArray.push(e);
         resultObj["content"][truc] = e;
         console.log("    "+src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
         lastUpdate = timer.dateFull();
@@ -145,10 +133,8 @@
       };
 
 function save(e, id){
-
-    //console.log(  JSON.stringify(e).substring(0, 23).replace(/:|{|}|"/g," ") + e.source);
     lastUpdate = timer.dateFull();
-    resultArray[0].id = id;
+    e.metadata["id"] = id;
     console.log("okay ! " +  JSON.stringify(e));
       fs.writeFile("data/"+ id +".json", JSON.stringify(e), function (err) {
         if (err) throw err;
@@ -164,7 +150,6 @@ function jsonDir(){
   fs.readdir('./data/', (err, files) => {      //data directory path hardcoded !!
     files.forEach(file => { exportJsonDirList(file);   });
   });
-
 }
 
 
@@ -172,7 +157,6 @@ function exportJsonDirList(e){
   dirList.push(e);
 }
 
-//
 
 function openFile(e, callback){
   fs.readFile("./data/"+e+".json", "utf8", function read(err, data){
@@ -180,12 +164,10 @@ function openFile(e, callback){
       console.log("openfile: ./data/"+e+".json");
       var obj = JSON.parse(data);
       callback(obj);
-
   })
-
 }
 
 function processFile(e){
-  resultArray = e ;
+  resultObj = e ;
   console.log("open file type= " + typeof(e));
 }
