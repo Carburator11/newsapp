@@ -19,18 +19,20 @@ function customInput(){
 //tab browsing menu.
 //ugly solution : could have used Jquery toggleclasses but I don't want too many external modules on this project
 function showclass(e){
-      document.getElementById("create").className =  "inactive";
-      document.getElementById("preview").className = "inactive";
-      document.getElementById("browse").className =  "inactive";
-      document.getElementById("edit").className =    "inactive";
-      document.getElementById("deploy").className =  "inactive";
-      document.getElementById(e).className =         "active";
+      document.getElementById("fetch").className =    "inactive";
+      document.getElementById("save").className =     "inactive";
+      document.getElementById("preview").className =  "inactive";
+      document.getElementById("browse").className =   "inactive";
+      document.getElementById("raw").className =      "inactive";
+      document.getElementById("queue").className =    "inactive";
+      document.getElementById(e).className =           "active";
 
-      document.getElementById('c').className = "tab hidden";
+      document.getElementById('f').className = "tab hidden";
+      document.getElementById('s').className = "tab hidden";
       document.getElementById('p').className = "tab hidden";
       document.getElementById('b').className = "tab hidden";
-      document.getElementById('e').className = "tab hidden";
-      document.getElementById('d').className = "tab hidden";
+      document.getElementById('r').className = "tab hidden";
+      document.getElementById('q').className = "tab hidden";
       document.getElementById(e.substring(0,1)).className = "tab visible";
 
       sessionStorage.setItem("lastview", e);
@@ -50,7 +52,7 @@ showclass(sessionStorage.getItem("lastview"));
 function edit(e){
   sessionStorage.setItem("currentId", e);
   currentId();
-  showclass("edit");
+  showclass("preview");
 }
 
 function preview(e){

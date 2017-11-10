@@ -14,27 +14,30 @@
 
     <h1>Admin tool v1.0</h1>
     <div class = "menu">
-     <button class="active"   id="create"       onclick="showclass('create')">Create</button>
-     <button class="inactive" id="deploy"       onclick="showclass('deploy')">Deploy</button>
+     <button class="active"   id="fetch"       onclick="showclass('fetch')">Fetch</button>
+     <button class="inactive" id="save"        onclick="showclass('save')">Save</button>
      <button class="inactive" id="preview"      onclick="showclass('preview')">Preview</button>
      <button class="inactive" id="browse"       onclick="showclass('browse')">Browse</button>
-     <button class="inactive" id="edit"         onclick="showclass('edit')">Edit</button>
+     <button class="inactive" id="raw"          onclick="showclass('raw')">Raw</button>
+     <button class="inactive" id="queue"        onclick="showclass('queue')">Queue</button>
 
      </div>
-   <div class = "content">
+<div class = "content">
 
-   <!-- CREATE tab :  enables to fetch and save a dataset in default/customized path-->
-   <div  class="tab visible" id = "c">
+   <!-- FETCH tab -->
+   <div  class="tab visible" id = "f">
 
        <h4 id="json">Dataset updated at:   <%= JSON.stringify(resultObj["metadata"]["genDate"]) %>  </h4>
        <form method="post" action="/admin/refresh">
-         <input type="submit" value="Get / Refresh dataset &#8635;"/>
+         <input type="submit" value="Get / Refresh dataset &#9935;"/>
        </form>
        <br>
      </div>
 
-     <!--DEPLOY tab : -->
-     <div  class="tab hidden" id = "d">
+
+
+     <!--SAVE tab : -->
+     <div  class="tab hidden" id = "s">
        <h4 id="json">Save with default id: <span id="current">   </span></h4>
        <p> URL (external) : <a target="_blank" href="https://newsapp-carb11.herokuapp.com/<%= date %>"/>https://newsapp-carb11.herokuapp.com/<%= date %></a><p>
        <p> URL (local) : <a target="_blank" href="localhost:5000/<%= date %>"/>localhost:5000/<%= date %></a><p>
@@ -50,15 +53,16 @@
        </form>
      </div>
 
+
+
   <!--PREVIEW tab-->
    <div  class="tab hidden" id = "p">
-     <br>
-     <b>Id: <span  id="current-preview"></span> </b><br>
-     <br><br>
+     <p>Currently editing <b><span id="current-edit"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
+     <p>Dataset generated at:  <span id="current-date"></span></p>
+       <br><br>
+       <span id = "out"><span>
+    </div>
 
-     <p id="json-content"><%- JSON.stringify(resultObj) %><p>
-
-     </div>
 
   <!--BROWSE tab :  -->
    <div  class="tab hidden" id = "b">
@@ -68,30 +72,31 @@
      </ul>
    </div>
 
-   <!--EDIT tab-->
-   <div  class="tab hidden" id = "e">
-    <p>Currently editing <b><span id="current-edit"></span>.json</b> (or go back to  <span class = "link" onclick= "showclass('browse')">browse</span>)</p>
-    <p>Dataset generated at:  <span id="current-date"></span></p>
-      <br><br>
 
-      <b>Headlines</b> (based on resultObj)<br>
-      0. <%- JSON.stringify(resultObj.metadata.headlines[0]) %><br>
-      1. <%- JSON.stringify(resultObj.metadata.headlines[1]) %><br>
-      2. <%- JSON.stringify(resultObj.metadata.headlines[2]) %><br>
-      <br>
-      <span id = "out"><span>
+   <!--RAW tab-->
+   <div  class="tab hidden" id = "r">
+     <br>
+     <b>Id: <span  id="current-preview"></span> </b><br>
+     <br><br>
+
+     <p id="json-content"><%- JSON.stringify(resultObj) %><p>
 
 
+    </div>
 
-
-
+   <!--QUEUE tab-->
+   <div  class="tab hidden" id = "q">
+     <br>
+     <form method="post" action="admin/queue-reset/" >
+       <input type="submit" value="Reset queue &#9904;"/>
+     </form>
 
    </div>
 
 
 
 
-  </div>
+</div>
 
 
     <div id ="more">
@@ -114,23 +119,23 @@
 
 
 
-//this function populates the BROWSE tab
-//couldn't move it to external js file because of strange behavior of the Express variables
+//BROWSE tab
+//(couldn't move it to external js file because of strange behavior of the Express variables)
 function showDirList(){
   document.getElementById('viewDirs').innerHTML = ""; //initializing
   for (var i = 0 ; i < <%- JSON.stringify(dirList)%>.length ; i++) {
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
-    var el = "<li>" + filename ;
-    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PL</span></a>";
-    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
-    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
-    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
-    el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
-    el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
+    let el     =  "<li>"+ filename ;
+        el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PL</span></a>";
+        el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
+        el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
+        el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
+        el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
+        el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
     el    +=  "</li>";
     document.getElementById('viewDirs').innerHTML += el ;
-      }
+    }
 
 }
 
@@ -150,7 +155,7 @@ function currentId(){
 
 
 
-  //display a preview based on resultObj
+  //EDIT TAB : display a preview based on resultObj
   function editPrevObj(out){
     let input = <%- JSON.stringify(resultObj) %>;
     let output = "";

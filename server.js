@@ -60,7 +60,15 @@
         res.redirect(303, '/admin');
     });
 
+    app.get('/admin/quieue/:id', function(req, res) {
+        console.log("  adding to queue:" + req.params.id)
+        res.redirect(303, '/admin');
+    });
 
+    app.get('/admin/quieue-reset', function(req, res) {
+        console.log("  queue reset")
+        res.redirect(303, '/admin');
+    });
 
     app.get('/:id', function(req, res) {
       var object = require('./data/' + req.params.id + '.json');
@@ -78,7 +86,7 @@
     app.listen(app.get('port'), () => {
       console.log('We are live on port: ', app.get('port'));
       getJson(inputArray, result);
-
+      jsonDir();
       });
 
 
@@ -152,14 +160,11 @@ function jsonDir(){
   dirList = [];
   fs.readdir('./data/', (err, files) => {      //data directory path hardcoded !!
     files.forEach(file => { dirList.push(file);   });
-    console.log("   jsonDir");
-  });
+    console.log("   jsonDir " + JSON.stringify(dirList));
+    });
 }
 
 function improvedJsonDir(){
-
-
-
 
 }
 
