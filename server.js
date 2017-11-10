@@ -1,7 +1,7 @@
     var express = require('express');
     var app = express();
     var https = require("https");
-    var timer = require("./my_modules/timer/timer.js");
+    var timer = require("./scripts/timer.js");
     var http = require('http');
     var bodyParser = require('body-parser');
     var fs = require('fs');
@@ -16,10 +16,10 @@
           {bbcsport:'https://newsapi.org/v1/articles?source=bbc-sport&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',}
         ];
 
-    var resultArray = []; //DO NOT modify ! harcoded in the result callback function
     var resultObj = {};   //DO NOT modify ! harcoded in the result callback function
+                          //resultObj is initialized below in the getJson function
     var date = timer.dateShort();
-    var lastUpdate = timer.dateFull();
+    var hh = timer.hourShort();
     var currentFile = [];
     var count = 0;
 
@@ -35,7 +35,7 @@
 
     app.get('/admin', function(req, res) {
       getJson(inputArray, result);
-      res.render('admin.ejs',{date: date, resultArray: resultArray, resultObj:resultObj, lastUpdate: lastUpdate, dirList:dirList});
+      res.render('admin.ejs',{date: date, resultObj:resultObj, dirList:dirList});
     });
 
     app.post('/admin/save/:id', function(req, res) {
@@ -92,9 +92,10 @@
           callback:callback
           }, function(error, response, body) {
               if(count ==0){
-                let md = {
+                let md = {    //initializing the resultObj here
                   id: timer.dateShort(),  //updated by save function if custom name provided
-                  genTime: timer.dateFull(),
+                  genDate: timer.dateFull(),
+                  genTime: timer.now(),
                   headlines: {
                     head1:{src:"cnn", art: 0},
                     head2:{src:"the-guardian-uk", art: 0},
@@ -116,14 +117,14 @@
     var result = function(e, src){
         var truc = src ;
         var obj = {};
+
         resultObj["content"][truc] = e;
         console.log("    "+src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
-        lastUpdate = timer.dateFull();
         count++;                          //count is a global variable
           if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
                 count = 0;
                 jsonDir();                  // Recursive function
-                console.log("   jsonDir");
+
             }
 
       else {
@@ -133,9 +134,9 @@
       };
 
 function save(e, id){
-    lastUpdate = timer.dateFull();
+    e.metadata["genDate"] = timer.dateFull();
     e.metadata["id"] = id;
-    console.log("okay ! " +  JSON.stringify(e));
+    console.log("  saving id:  " +  id);
       fs.writeFile("data/"+ id +".json", JSON.stringify(e), function (err) {
         if (err) throw err;
       });
@@ -145,23 +146,27 @@ function save(e, id){
 
 
 var dirList = [];
+
+
 function jsonDir(){
   dirList = [];
   fs.readdir('./data/', (err, files) => {      //data directory path hardcoded !!
-    files.forEach(file => { exportJsonDirList(file);   });
+    files.forEach(file => { dirList.push(file);   });
+    console.log("   jsonDir");
   });
 }
 
+function improvedJsonDir(){
 
-function exportJsonDirList(e){
-  dirList.push(e);
+
+
+
 }
-
 
 function openFile(e, callback){
   fs.readFile("./data/"+e+".json", "utf8", function read(err, data){
       if(err){throw err}
-      console.log("openfile: ./data/"+e+".json");
+      console.log("  openfile: ./data/"+e+".json");
       var obj = JSON.parse(data);
       callback(obj);
   })
@@ -169,5 +174,18 @@ function openFile(e, callback){
 
 function processFile(e){
   resultObj = e ;
-  console.log("open file type= " + typeof(e));
+  console.log("  open file type= " + typeof(e));
 }
+
+
+setInterval( function(){getJson(
+  inputArray, result);
+  let id = date + "auto" + "-" + hh;
+  console.log(" autosaving: "+ id);
+  save(resultObj, id);
+
+}, 86400000/3);  //1day = 86400000ms
+
+
+
+setInterval( function(){jsonDir();}, 5000000);

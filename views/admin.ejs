@@ -26,7 +26,7 @@
    <!-- CREATE tab :  enables to fetch and save a dataset in default/customized path-->
    <div  class="tab visible" id = "c">
 
-       <h4 id="json">Dataset updated at: <span id='lastUpdate'>  <%= lastUpdate %>  </span></h4>
+       <h4 id="json">Dataset updated at:   <%= JSON.stringify(resultObj["metadata"]["genDate"]) %>  </h4>
        <form method="post" action="/admin/refresh">
          <input type="submit" value="Get / Refresh dataset &#8635;"/>
        </form>
