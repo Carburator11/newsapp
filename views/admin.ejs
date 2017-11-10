@@ -45,7 +45,7 @@
          <input type="submit" value="Save dataset &#128190;"/>
        </form>
 
-       <form method="post" action="" id="submitCustom" >
+       <form method="post" action="" id="submitCustom" maxlength="20">
        <h4 id="json" >Save with custom id: <input type="text" name="custom" id="customInput"  text=""> </input><span id="customButton" onclick="customInput()">&#9655;</span> </h4>
        <p> URL (external) : <a id="customExtUrl" target="_blank" href="https://newsapp-carb11.herokuapp.com/"/>https://newsapp-carb11.herokuapp.com/</a><p>
        <p> URL (local) : <a id="customLocalUrl" target="_blank" href="localhost:5000/"/>localhost:5000/</a><p>
@@ -132,14 +132,14 @@ function showDirList(){
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
     let el     =  "<li>"+ filename ;
-        el    +=  "<a id='l' class='editLinks' href='"+ cur +"/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>P</span></a>";
-        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
-        el    +=  "<a id='l' class='editLinks' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
-        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
-        el    +=  "<a id='l' class='editLinks' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
-        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
-        el    +=  "<a id='l' class='editLinks' href='http://localhost:5000//admin/quieue/"+ id +"'>QL</a>";
-        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com//admin/quieue/" + id +"'>QE</a>";
+        el    +=  "<a id='l' class='editLinks' href='"+ cur +"/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>prev</span></a>";
+      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
+      //el    +=  "<a id='l' class='editLinks' href='"+ cur + "/edit/" + id +"' onclick= 'edit("+ JSON.stringify(id) +")'>edit</span></a>";
+      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
+        el    +=  "<a id='l' class='editLinks' href='"+ cur + "/suppr/" + id +"'>suppr</a>";
+      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
+        el    +=  "<a id='l' class='editLinks' href='"+ cur + "/quieue/" + id +"'>quieue</a>";
+      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com//admin/quieue/" + id +"'>QE</a>";
     el    +=  "</li>";
     document.getElementById('viewDirs').innerHTML += el ;
     }
