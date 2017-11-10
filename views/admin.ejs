@@ -14,8 +14,8 @@
 
     <h1>Admin tool v1.0</h1>
     <div class = "menu">
-     <button class="active"   id="fetch"       onclick="showclass('fetch')">Fetch</button>
-     <button class="inactive" id="save"        onclick="showclass('save')">Save</button>
+     <button class="active"   id="fetch"        onclick="showclass('fetch')">Fetch</button>
+     <button class="inactive" id="save"         onclick="showclass('save')">Save</button>
      <button class="inactive" id="preview"      onclick="showclass('preview')">Preview</button>
      <button class="inactive" id="browse"       onclick="showclass('browse')">Browse</button>
      <button class="inactive" id="raw"          onclick="showclass('raw')">Raw</button>
@@ -67,7 +67,8 @@
   <!--BROWSE tab :  -->
    <div  class="tab hidden" id = "b">
      <a href="">reload page</a>
-     <p>PL : preview (local) ; PE : preview (external) ; EL : edit (local) ; EE : edit (external) ; SL : suppress (local) ; SE : suppress (external)</p>
+     <p>P : preview ; E : edit ; S : suppress ; Q : add to queue<br>
+     L : localhost ; E : external</p>
      <ul id="viewDirs">
      </ul>
    </div>
@@ -121,18 +122,24 @@
 
 //BROWSE tab
 //(couldn't move it to external js file because of strange behavior of the Express variables)
+//quite ugly too with double links...
 function showDirList(){
+
+  let cur = window.location.href ;
   document.getElementById('viewDirs').innerHTML = ""; //initializing
+
   for (var i = 0 ; i < <%- JSON.stringify(dirList)%>.length ; i++) {
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
     let el     =  "<li>"+ filename ;
-        el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PL</span></a>";
-        el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
-        el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
-        el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
-        el    +=  "<a id='editLinks' class='link' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
-        el    +=  "<a id='editLinks' class='link' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
+        el    +=  "<a id='l' class='editLinks' href='"+ cur +"/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>P</span></a>";
+        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
+        el    +=  "<a id='l' class='editLinks' href='http://localhost:5000/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EL</span></a>";
+        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
+        el    +=  "<a id='l' class='editLinks' href='http://localhost:5000/admin/suppr/"+ id +"'>SL</a>";
+        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
+        el    +=  "<a id='l' class='editLinks' href='http://localhost:5000//admin/quieue/"+ id +"'>QL</a>";
+        el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com//admin/quieue/" + id +"'>QE</a>";
     el    +=  "</li>";
     document.getElementById('viewDirs').innerHTML += el ;
     }

@@ -23,18 +23,15 @@ ul{ margin: 15px;
     line-height: 22px;}
 
 
-.link{
+.editLinks{
   color:blue;
   text-decoration: underline;
   cursor: pointer;
-  margin-left: 0;
+  margin-left: 10px;
 }
 
 a {margin-left: 0;}
 
-#editLinks{
-  margin-left: 10px;
-}
 
 
 /* containers */

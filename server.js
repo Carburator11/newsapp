@@ -128,11 +128,10 @@
 
         resultObj["content"][truc] = e;
         console.log("    "+src + " : "+  JSON.stringify(e).substring(0, 14).replace(/:|{|}|"/g," ")   );
-        count++;                          //count is a global variable
+        count++;                          //count = global
           if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
                 count = 0;
-                jsonDir();                  // Recursive function
-
+                jsonDir();                  // Yeah !!! Recursive function !!!
             }
 
       else {
@@ -164,9 +163,6 @@ function jsonDir(){
     });
 }
 
-function improvedJsonDir(){
-
-}
 
 function openFile(e, callback){
   fs.readFile("./data/"+e+".json", "utf8", function read(err, data){
