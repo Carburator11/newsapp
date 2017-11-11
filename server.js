@@ -86,7 +86,6 @@
     app.listen(app.get('port'), () => {
       console.log('We are live on port: ', app.get('port'));
       getJson(inputArray, result);
-      jsonDir();
       });
 
 
@@ -131,7 +130,7 @@
         count++;                          //count = global
           if(count == inputArray.length){   //hardcoded inputArray as it's not a parameter of the callback/result function..
                 count = 0;
-                jsonDir();                  // Yeah !!! Recursive function !!!
+                jsonDir(writeDirList);
             }
 
       else {
@@ -146,6 +145,7 @@ function save(e, id){
     console.log("  saving id:  " +  id);
       fs.writeFile("data/"+ id +".json", JSON.stringify(e), function (err) {
         if (err) throw err;
+        jsonDir(writeDirList);
       });
 
 
@@ -155,12 +155,18 @@ function save(e, id){
 var dirList = [];
 
 
-function jsonDir(){
+function jsonDir(callback){
   dirList = [];
-  fs.readdir('./data/', (err, files) => {      //data directory path hardcoded !!
-    files.forEach(file => { dirList.push(file);   });
-    console.log("   jsonDir " + JSON.stringify(dirList));
+  fs.readdir('./data/', (
+      err,
+      files) => {
+    files.forEach(file => { callback(file);   });
+    console.log("    write dirList ");
     });
+}
+
+function writeDirList(e){
+  dirList.push(e);  //harcoded dirList output array
 }
 
 
@@ -172,6 +178,7 @@ function openFile(e, callback){
       callback(obj);
   })
 }
+
 
 function processFile(e){
   resultObj = e ;
@@ -189,4 +196,4 @@ setInterval( function(){getJson(
 
 
 
-setInterval( function(){jsonDir();}, 5000000);
+setInterval( function(){jsonDir(writeDirList);}, 5000000);
