@@ -194,6 +194,8 @@ function processFile(e){
 
 setInterval( function(){getJson(
   inputArray, result);
+  date = timer.dateShort();
+  hh = timer.hourShort();
   let id = date + "auto" + "-" + hh;
   console.log(" autosaving: "+ id);
   getJson(inputArray, result);
@@ -204,6 +206,6 @@ setInterval( function(){getJson(
 
 setInterval(  function(){
   var now = timer.dateFull;
+  date = timer.dateShort();
+  hh = timer.hourShort();
   console.log(date +" - " +hh )}, 1000*10);
-
-setInterval( function(){jsonDir(writeDirList);}, 1000 * 60 * 10);
