@@ -160,10 +160,11 @@ var dirList = [];
 
 
 function jsonDir(callback){
-  dirList = [];
+  //dirList = [];
   fs.readdir('./data/', function(err,files) {
     //files.forEach(file => { callback(file);   });
-    if(files.length > 0){
+    if(err){console.log("error: "+ err);}
+    else{
       callback(files);
       console.log("    write dirList "+files);
       }
