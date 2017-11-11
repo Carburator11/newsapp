@@ -163,9 +163,10 @@ function jsonDir(callback){
   dirList = [];
   fs.readdir('./data/', function(err,files) {
     //files.forEach(file => { callback(file);   });
-
-    callback(files);
-    console.log("    write dirList "+files);
+    if(files.length > 0){
+      callback(files);
+      console.log("    write dirList "+files);
+      }
     });
 }
 
