@@ -40,7 +40,7 @@ module.exports ={
 
   now: function(){
     let cur = new Date();
-    return cur;
+    return cur.getTime();
   }
 
 }

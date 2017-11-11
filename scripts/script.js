@@ -61,6 +61,13 @@ function preview(e){
   showclass("preview");
 }
 
+//too lazy to add a parameter for raw in preview function 
+function previewRaw(e){
+  sessionStorage.setItem("currentId", e);
+  currentId();
+  showclass("raw");
+}
+
 
 
 //

@@ -131,13 +131,11 @@ function showDirList(){
   for (var i = 0 ; i < <%- JSON.stringify(dirList)%>.length ; i++) {
     var filename = <%- JSON.stringify(dirList)%>[i];
     var id =  filename.substring(0, (filename.length - 5));
+    prevraw = function(){showclass('raw')};
     let el     =  "<li>"+ filename ;
         el    +=  "<a id='l' class='editLinks' href='"+ cur +"/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>prev</span></a>";
-      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/preview/"+ id +"' onclick= 'preview("+ JSON.stringify(id) +")'>PE</span></a>";
-      //el    +=  "<a id='l' class='editLinks' href='"+ cur + "/edit/" + id +"' onclick= 'edit("+ JSON.stringify(id) +")'>edit</span></a>";
-      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/edit/"+ id +"' onclick= 'edit("+ JSON.stringify(id) +")'>EE</span></a>";
+        el    +=  "<a id='l' class='editLinks' href='"+ cur +"/previewraw/"+ id +"' onclick= 'previewRaw("+ JSON.stringify(id) +")'>raw</span></a>";
         el    +=  "<a id='l' class='editLinks' href='"+ cur + "/suppr/" + id +"'>suppr</a>";
-      //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com/admin/suppr/"+ id +"'>SE</a>";
         el    +=  "<a id='l' class='editLinks' href='"+ cur + "/quieue/" + id +"'>quieue</a>";
       //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com//admin/quieue/" + id +"'>QE</a>";
     el    +=  "</li>";

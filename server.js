@@ -46,6 +46,7 @@
 
     app.get('/admin/suppr/:id', function(req, res) {
         fs.unlinkSync('data/' + req.params.id + ".json");
+        jsonDir(writeDirList);
         console.log("suppressing : " + req.params.id + ".json");
         res.redirect(303, '/admin');
     });
@@ -56,6 +57,11 @@
     });
 
     app.get('/admin/preview/:id', function(req, res) {
+        openFile(req.params.id, processFile);
+        res.redirect(303, '/admin');
+    });
+
+    app.get('/admin/previewraw/:id', function(req, res) {
         openFile(req.params.id, processFile);
         res.redirect(303, '/admin');
     });
@@ -134,7 +140,7 @@
             }
 
       else {
-        getJson(inputArray, result);
+        getJson(inputArray, result);  //serial loop
       }
 
       };
@@ -145,10 +151,8 @@ function save(e, id){
     console.log("  saving id:  " +  id);
       fs.writeFile("data/"+ id +".json", JSON.stringify(e), function (err) {
         if (err) throw err;
-        jsonDir(writeDirList);
       });
-
-
+      jsonDir(writeDirList);
 };
 
 
@@ -157,16 +161,17 @@ var dirList = [];
 
 function jsonDir(callback){
   dirList = [];
-  fs.readdir('./data/', (
-      err,
-      files) => {
-    files.forEach(file => { callback(file);   });
-    console.log("    write dirList ");
+  fs.readdir('./data/', function(err,files) {
+    //files.forEach(file => { callback(file);   });
+
+    callback(files);
+    console.log("    write dirList "+files);
     });
 }
 
 function writeDirList(e){
-  dirList.push(e);  //harcoded dirList output array
+  dirList= e;  //harcoded dirList output array
+  console.log("   cb: "+JSON.stringify(dirList))
 }
 
 
