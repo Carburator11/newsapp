@@ -90,7 +90,7 @@
     });
 
     app.listen(app.get('port'), () => {
-      console.log('We are live on port: ', app.get('port'));
+      console.log('We are live on port: '+ app.get('port'));
       getJson(inputArray, result);
       });
 
@@ -98,7 +98,6 @@
 
     //http request via request module
     function getJson(array, callback){
-
       request({
           url: array[count][Object.keys(array[count])],  //"simplest" way I found to iterate through array of object containing the urls
           json: true,
@@ -166,14 +165,14 @@ function jsonDir(callback){
     if(err){console.log("error: "+ err);}
     else{
       callback(files);
-      console.log("    write dirList "+files);
+      console.log("    write dirList ");
       }
     });
 }
 
 function writeDirList(e){
   dirList= e;  //harcoded dirList output array
-  console.log("   cb: "+JSON.stringify(dirList))
+  //console.log("   cb: "+JSON.stringify(dirList))
 }
 
 
@@ -197,10 +196,14 @@ setInterval( function(){getJson(
   inputArray, result);
   let id = date + "auto" + "-" + hh;
   console.log(" autosaving: "+ id);
+  getJson(inputArray, result);
   save(resultObj, id);
 
-}, 86400000/3);  //1day = 86400000ms
+}, 1000*60);  //1day = 86400000ms
 
 
+setInterval(  function(){
+  var now = timer.dateFull;
+  console.log(date +" - " +hh )}, 1000*10);
 
-setInterval( function(){jsonDir(writeDirList);}, 5000000);
+setInterval( function(){jsonDir(writeDirList);}, 1000 * 60 * 10);
