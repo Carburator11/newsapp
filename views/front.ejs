@@ -40,18 +40,22 @@
      <div id= "header-bg">
        <img src= <%- object.content.cnn.articles[0].urlToImage %> />
      </div>
-     <div id="head-title">
-       <div class="source-title"><%-   (object.content.cnn.source).toUpperCase()     %></div>
-       <%- object.content.cnn.articles[0].title %>
+     <div id="head-title-box">
+       <div class="source-title"><%-   (object.content.cnn.source).toUpperCase() %></div>
+       <a href="<%- object.content.cnn.articles[0].url %>">
+          <div id="head-title">
+          <%- object.content.cnn.articles[0].title %>
+          </div>
+       </a>
      </div>
 
      <div class="head-subtitle" id="sub2">
-       <div class="source-title"><%- (object.content.cnn.source).toUpperCase() %></div>
+       <div id= "sub-source"><%- (object.content.cnn.source).toUpperCase() %></div>
        <div>  <%- object.content.cnn.articles[1].title %>  </div>
      </div>
 
      <div class="head-subtitle" id="sub3">
-       <div class="source-title"><%- (object.content.cnn.source).toUpperCase() %></div>
+       <div id= "sub-source"><%- (object.content.cnn.source).toUpperCase() %></div>
        <div><%- object.content.cnn.articles[2].title    %></div>
      </div>
    </div>
@@ -84,7 +88,7 @@
 
      </div>
      <div id="twitcol">
-         <a class="twitter-timeline" data-width="250" data-height="2000" data-theme="light"
+         <a class="twitter-timeline" data-width="250" data-height="5200" data-theme="light"
          href="https://twitter.com/CNN?ref_src=twsrc%5Etfw">Tweets by CNN</a>
 
      </div>
@@ -115,9 +119,17 @@ function optim(e){
 
 
 
-<% function content(srczz, i, tag){ return JSON.stringify(object.content[srczz].articles[i][tag]) }; ; %>
+<% function content(srczz, i, tag){
+
+return JSON.stringify(object.content[srczz].articles[i][tag])
+
+
+}; ; %>
+
+<% function silly(e){return e}  %>
 
 <%function maincolContent(src){
+
   for (var i = 0 ; i < 5 ; i++){%>
   var el = "";
    el     += " <div class='art-sec'>";
@@ -132,24 +144,29 @@ function optim(e){
 
  %>
 
+var stuff = "lol";
+
  <%function seccolContent(src){
+
    for (var i = 0 ; i < 5 ; i++){%>
    var el = "";
     el     += " <div class='art-sec'>";
-    el     += <%- content(src, i, "title" )  %> + "<br>";
-    el     += <%- content(src, i, "description" )  %> + "<br>";
-    el     += <%- content(src, i, "author" )  %> + "<br>";
-    el     += <%- content(src, i, "url" )  %> + "<br>";
-    el     += <%- content(src, i, "urlToImage" )  %> + "<br>";
-    el     += "         </div>";
+    el     +=  "<a href= "+ <%- JSON.stringify(content(src, i, "url" ))  %> +">"
+    el     += "<img src = '"+ <%- content(src, i, "urlToImage" )  %>  +"' />";
+    el     += "<h4>" + <%- (JSON.stringify(src)).toUpperCase() %> + "</h4>";
+    el     += "<h1>" + <%- content(src,i , "title")  %> + "</h1>";
+    el     += "<p>"  + <%- content(src, i, "description")  %> + "</p>";
+    //el     += <%- content(src, i, "author" )  %> + "<br>";
+    //el     += <%- content(src, i, "url" )  %> + "<br>";
+    el     += "         </a></div>";
     document.getElementById("seccol").innerHTML += el ;
  <%}}%>
 
   %>
 
 <% seccolContent('bbc-news') %>
-<% seccolContent('the-guardian-uk') %>
+<% maincolContent('the-guardian-uk') %>
 <% maincolContent('recode') %>
-<% maincolContent('recode') %>
-
+<% seccolContent('national-geographic') %>
+<% maincolContent('bbc-sport') %>
 </script>
