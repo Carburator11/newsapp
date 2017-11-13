@@ -1,4 +1,5 @@
     var express = require('express');
+  const favicon = require('express-favicon');
     var app = express();
     var https = require("https");
     var timer = require("./scripts/timer.js");
@@ -28,6 +29,7 @@
     app.use(bodyParser.urlencoded({  extended: true }));
     app.use(bodyParser.json());
     app.use(express.static(__dirname));
+    app.use(favicon(__dirname + '/public/images/favicon.png'));
 
     app.post('/admin/refresh', function(req, res) {
       console.log('Refresh!');
@@ -78,9 +80,10 @@
     });
 
     app.get('/:id', function(req, res) {
+      //if(req.params.id != "null"){
       var object = require('./data/' + req.params.id + '.json');
-      //res.send(JSON.stringify(object));
       res.render('front.ejs',{id:req.params.id, object: object});
+    //}
     });
 
     app.get('/', function(req, res) {
@@ -89,7 +92,6 @@
       save(resultObj, id);
       res.render('front.ejs',{id:id, object: resultObj});
     });
-
 
     app.use(function(req, res, next){
         res.setHeader('Content-Type', 'text/html');
