@@ -84,7 +84,7 @@
 
      </div>
      <div id="twitcol">
-         <a class="twitter-timeline" data-width="250" data-height="1000" data-theme="light"
+         <a class="twitter-timeline" data-width="250" data-height="2000" data-theme="light"
          href="https://twitter.com/CNN?ref_src=twsrc%5Etfw">Tweets by CNN</a>
 
      </div>
@@ -93,7 +93,7 @@
  </body>
  <!---<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>--->
 
- <script async src="../scripts/twitterwidget.js" charset="utf-8"></script>
+ <script async src="./scripts/twitterwidget.js" charset="utf-8">
  </script>
  <link href='https://fonts.googleapis.com/css?family=Faster One' rel='stylesheet'>
  <link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
@@ -113,25 +113,11 @@ function optim(e){
 
 
 
-function addContent(){;
-        var el = "";
-        el+= " <div class='art-sec'>";
-        el+= "           <img src="+ <%- JSON.stringify(object.content["bbc-news"].articles[0].urlToImage) %> + " /> ";
-        el+= "           <h4>"+ <%- JSON.stringify((object.content["bbc-news"].source)).toUpperCase() %>+ "</h4>";
-        el+= "           <h1>" + <%- JSON.stringify(object.content["bbc-news"].articles[0].title) %> + "</h1>";
-        el+= "<p>" + <%- JSON.stringify(object.content['bbc-news'].articles[0].description) %> + "<p>";
-        el+= "           <div id='soc-icon'>#</div>";
-        el+= "           <div id='soc-icon'>@</div>";
-        el+= "           <div id='soc-icon'>|||</div>";
-        el+= "         </div>";
-        document.getElementById("seccol").innerHTML += el;
-}
 
-addContent();
 
 <% function content(srczz, i, tag){ return JSON.stringify(object.content[srczz].articles[i][tag]) }; ; %>
 
-<%function glutt(src){
+<%function maincolContent(src){
   for (var i = 0 ; i < 5 ; i++){%>
   var el = "";
    el     += " <div class='art-sec'>";
@@ -146,9 +132,24 @@ addContent();
 
  %>
 
-<% glutt('bbc-news') %>
-<% glutt('the-guardian-uk') %>
-<% glutt('recode') %>
+ <%function seccolContent(src){
+   for (var i = 0 ; i < 5 ; i++){%>
+   var el = "";
+    el     += " <div class='art-sec'>";
+    el     += <%- content(src, i, "title" )  %> + "<br>";
+    el     += <%- content(src, i, "description" )  %> + "<br>";
+    el     += <%- content(src, i, "author" )  %> + "<br>";
+    el     += <%- content(src, i, "url" )  %> + "<br>";
+    el     += <%- content(src, i, "urlToImage" )  %> + "<br>";
+    el     += "         </div>";
+    document.getElementById("seccol").innerHTML += el ;
+ <%}}%>
 
+  %>
+
+<% seccolContent('bbc-news') %>
+<% seccolContent('the-guardian-uk') %>
+<% maincolContent('recode') %>
+<% maincolContent('recode') %>
 
 </script>

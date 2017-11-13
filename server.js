@@ -13,7 +13,8 @@
           {bbc:'https://newsapi.org/v1/articles?source=bbc-news&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
           {guardian:'https://newsapi.org/v1/articles?source=the-guardian-uk&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
           {recode:'https://newsapi.org/v1/articles?source=recode&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc'},
-          {bbcsport:'https://newsapi.org/v1/articles?source=bbc-sport&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',}
+          {bbcsport:'https://newsapi.org/v1/articles?source=bbc-sport&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc',},
+          {natgeo: "https://newsapi.org/v1/articles?source=national-geographic&sortBy?&apiKey=c6b3fe2e86d54cae8dcb10dc77d5c5fc"}
         ];
 
     var resultObj = {};   //DO NOT modify ! harcoded in the result callback function
@@ -79,7 +80,7 @@
     app.get('/:id', function(req, res) {
       var object = require('./data/' + req.params.id + '.json');
       //res.send(JSON.stringify(object));
-      res.render('front.ejs',{id:req.params.id, object: resultObj});
+      res.render('front.ejs',{id:req.params.id, object: object});
     });
 
 
