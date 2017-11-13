@@ -109,6 +109,11 @@ body{
   min-width: 250px;
   margin: 20px 0 0 0;}
 
+  .twitter-timeline {
+      height: 1000px !important;
+      display: inline-block;
+  }
+
       .art-sec{
         background: aquamarine;
         height: auto;margin: 5px;}

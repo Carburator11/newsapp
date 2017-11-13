@@ -79,7 +79,7 @@
     app.get('/:id', function(req, res) {
       var object = require('./data/' + req.params.id + '.json');
       //res.send(JSON.stringify(object));
-      res.render('pageview.ejs',{id:req.params.id, object: resultObj});
+      res.render('front.ejs',{id:req.params.id, object: resultObj});
     });
 
 
@@ -192,8 +192,8 @@ function processFile(e){
 }
 
 
-setInterval( function(){getJson(
-  inputArray, result);
+setInterval( function(){
+  getJson(inputArray, result);
   date = timer.dateShort();
   hh = timer.hourShort();
   let id = date + "auto" + "-" + hh;
@@ -201,11 +201,12 @@ setInterval( function(){getJson(
   getJson(inputArray, result);
   save(resultObj, id);
 
-}, 1000*60*60*6);  //1day = 86400000ms
+}, 1000*60*60*2);  //1day = 86400000ms
 
 
 setInterval(  function(){
   var now = timer.dateFull;
   date = timer.dateShort();
   hh = timer.hourShort();
-  console.log(date +" - " +hh )}, 1000*60*60);
+  console.log(date +" - " +hh );
+}, 1000*60*60);
