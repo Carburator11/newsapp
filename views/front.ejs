@@ -1,0 +1,154 @@
+<head>
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>NR~<%- id   %></title>
+  <meta http-equiv="Cache-control" content="public">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link href='../css/style_front.css' rel='stylesheet'>
+  <link rel="icon" href="favicon.ico">
+</head>
+
+<%
+ var head1src = object.metadata.headlines.head1.src ;
+ var head1num = object.metadata.headlines.head1.art ;
+ var head2src = object.metadata.headlines.head2.src ;
+ var head2num = object.metadata.headlines.head2.art ;
+ var head3src = object.metadata.headlines.head3.src ;
+ var head3num = object.metadata.headlines.head3.art ;
+
+
+
+
+
+ %>
+
+
+
+
+
+ <body>
+ <div id = "container">
+   <div id = "linemenu" onclick='alert("Dataset "+ <%= JSON.stringify(object.metadata.id) %>+" généré à : "+<%= JSON.stringify(object.metadata.genDate) %>)'>News room
+       <div class="linemenu-logo" id="soc1"></div>
+       <div class="linemenu-logo" id="soc2"></div>
+       <div class="linemenu-logo" id="soc3"></div>
+   </div>
+
+   <div id = "header">
+     <div id= "header-bg">
+       <img src= <%- object.content.cnn.articles[0].urlToImage %> />
+     </div>
+     <div id="head-title">
+       <div class="source-title"><%-   (object.content.cnn.source).toUpperCase()     %></div>
+       <%- object.content.cnn.articles[0].title %>
+     </div>
+
+     <div class="head-subtitle" id="sub2">
+       <div class="source-title"><%- (object.content.cnn.source).toUpperCase() %></div>
+       <div>  <%- object.content.cnn.articles[1].title %>  </div>
+     </div>
+
+     <div class="head-subtitle" id="sub3">
+       <div class="source-title"><%- (object.content.cnn.source).toUpperCase() %></div>
+       <div><%- object.content.cnn.articles[2].title    %></div>
+     </div>
+   </div>
+
+
+   <div id = "contents">
+     <div id="maincol"></div>
+     <div id="seccol">
+         <div class="art-sec">
+           <img src="<%-object.content.cnn.articles[3].urlToImage%>" />
+           <h4><%- (object.content.cnn.source).toUpperCase() %></h4>
+           <h1><%-object.content.cnn.articles[3].title%></h1>
+           <p><%- object.content.cnn.articles[3].description %></p>
+           <div id="soc-icon">#</div>
+           <div id="soc-icon">@</div>
+           <div id="soc-icon">|||</div>
+         </div>
+
+         <div class="art-sec">
+           <img src="<%-object.content.cnn.articles[4].urlToImage%>" />
+           <h4><%- (object.content.cnn.source).toUpperCase() %></h4>
+           <h1><%-object.content.cnn.articles[4].title%></h1>
+           <p><%- object.content.cnn.articles[4].description %></p>
+           <div id="soc-icon">#</div>
+           <div id="soc-icon">@</div>
+           <div id="soc-icon">|||</div>
+         </div>
+
+
+
+     </div>
+     <div id="twitcol">
+         <a class="twitter-timeline" data-width="250" data-height="1000" data-theme="light"
+         href="https://twitter.com/CNN?ref_src=twsrc%5Etfw">Tweets by CNN</a>
+
+     </div>
+   </div>
+ </div>
+ </body>
+ <!---<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>--->
+
+ <script async src="../scripts/twitterwidget.js" charset="utf-8"></script>
+ </script>
+ <link href='https://fonts.googleapis.com/css?family=Faster One' rel='stylesheet'>
+ <link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans" rel="stylesheet">
+
+
+
+
+
+<script>
+
+function optim(e){
+  var tp = e.replace(/-/g, " " );
+  tp = tp.replace(/"/g, "");
+  return tp ;
+}
+
+
+
+function addContent(){;
+        var el = "";
+        el+= " <div class='art-sec'>";
+        el+= "           <img src="+ <%- JSON.stringify(object.content["bbc-news"].articles[0].urlToImage) %> + " /> ";
+        el+= "           <h4>"+ <%- JSON.stringify((object.content["bbc-news"].source)).toUpperCase() %>+ "</h4>";
+        el+= "           <h1>" + <%- JSON.stringify(object.content["bbc-news"].articles[0].title) %> + "</h1>";
+        el+= "<p>" + <%- JSON.stringify(object.content['bbc-news'].articles[0].description) %> + "<p>";
+        el+= "           <div id='soc-icon'>#</div>";
+        el+= "           <div id='soc-icon'>@</div>";
+        el+= "           <div id='soc-icon'>|||</div>";
+        el+= "         </div>";
+        document.getElementById("seccol").innerHTML += el;
+}
+
+addContent();
+
+<% function content(srczz, i, tag){ return JSON.stringify(object.content[srczz].articles[i][tag]) }; ; %>
+
+<%function glutt(src){
+  for (var i = 0 ; i < 5 ; i++){%>
+  var el = "";
+   el     += " <div class='art-sec'>";
+   el     += <%- content(src, i, "title" )  %> + "<br>";
+   el     += <%- content(src, i, "description" )  %> + "<br>";
+   el     += <%- content(src, i, "author" )  %> + "<br>";
+   el     += <%- content(src, i, "url" )  %> + "<br>";
+   el     += <%- content(src, i, "urlToImage" )  %> + "<br>";
+   el     += "         </div>";
+   document.getElementById("maincol").innerHTML += el ;
+<%}}%>
+
+ %>
+
+<% glutt('bbc-news') %>
+<% glutt('the-guardian-uk') %>
+<% glutt('recode') %>
+
+
+</script>
