@@ -72,7 +72,7 @@ body{
   font-size: 40px;}
 
 .source-title{
-  margin: 30px 0 20px 0;
+  margin: 15px 0 20px 0;
   font-size: 14px; font-weight: bold;
   color: #00aeef;}
 
@@ -81,9 +81,9 @@ body{
 
   width: 200px; min-height: 75px;
   color: white; font-size: 18px;}
-#sub2{ top:80px; right:25px;}
-#sub3{ top:180px; right:25px;}
-#sub-source{  font-size: 14px; font-weight: bold;color: #00aeef;margin: 10px 0 5px 0;}
+#sub2{ top:95px; right:25px;}
+#sub3{ top:210px; right:25px;}
+#sub-source{  font-size: 14px; font-weight: bold;color: #00aeef;margin: 15px 0 5px 0;}
 
 
 #contents{
@@ -101,22 +101,37 @@ body{
   min-height: 1000px;
   min-width: 400px;
   margin: 20px 0 0 0;}
+  .art-main{
+    background: inherit;
+    height: auto;margin: 5px;}
+  .art-main h1{
+    color: #555555;; font-size: 1.4rem;
+    margin: 10px;}
+  #source{
+    color: black; font-size: 0.7rem;
+    font-weight: bold;  margin: 10px;}
+  .art-main p {color: gray; font-size: 0.9rem;
+    margin: 8px;}
+  .art-main img{
+    width: 50%;
+    height: auto;
+  }
+.art-main #soc-icon{
+display: inline-block;
+border: 1px solid white;  border-radius: 5px;
+min-width: 10px; min-height: 10px;
+margin: 4px;
+}
 
-#seccol{
-  grid-area: sec;
-  background: #EFF0F1;
-  min-height: 1000px;
-  min-width: 350px;
-  margin: 20px 0 0 0;}
-
-#twitcol{
-  grid-area: twit;
-  background: white;
-  min-height: 2000px;
-  min-width: 250px;
-  margin: 20px 0 0 0;}
 
 
+
+  #seccol{
+    grid-area: sec;
+    background: #EFF0F1;
+    min-height: 1000px;
+    min-width: 350px;
+    margin: 20px 0 0 0;}
 
       .art-sec{
         background: inherit;
@@ -139,3 +154,15 @@ body{
   min-width: 10px; min-height: 10px;
   margin: 4px;
 }
+
+
+
+#twitcol{
+  grid-area: twit;
+  background: white;
+  min-height: 2000px;
+  min-width: 250px;
+  margin: 20px 0 0 0;}
+
+  .timeline-Viewport {
+    overflow-y: hidden;}

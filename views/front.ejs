@@ -132,33 +132,34 @@ return JSON.stringify(object.content[srczz].articles[i][tag])
 
   for (var i = 0 ; i < 5 ; i++){%>
   var el = "";
-   el     += " <div class='art-sec'>";
-   el     += <%- content(src, i, "title" )  %> + "<br>";
-   el     += <%- content(src, i, "description" )  %> + "<br>";
-   el     += <%- content(src, i, "author" )  %> + "<br>";
-   el     += <%- content(src, i, "url" )  %> + "<br>";
-   el     += <%- content(src, i, "urlToImage" )  %> + "<br>";
-   el     += "         </div>";
-   document.getElementById("maincol").innerHTML += el ;
+        el     += " <div class='art-main'>";
+        el     +=  "<a href= "+ <%- JSON.stringify(content(src, i, "url" ))  %> +">"
+        el     += "<img src = '"+ <%- content(src, i, "urlToImage" )  %>  +"' />";
+        el     += "";
+        el     += "<h1>" + <%- content(src,i , "title")  %> + "</h1>";
+        el     += "<p>"  + <%- content(src, i, "description")  %> +"</a>";
+        el     += "<span id= 'source'>" + <%- (JSON.stringify(src)).toUpperCase() %> + "</span></p>";
+        //el     += <%- content(src, i, "author" )  %> + "<br>";
+        //el     += <%- content(src, i, "url" )  %> + "<br>";
+        el     += "         </div>";
+  document.getElementById("maincol").innerHTML += el ;
 <%}}%>
 
  %>
 
-var stuff = "lol";
 
  <%function seccolContent(src){
-
    for (var i = 0 ; i < 5 ; i++){%>
    var el = "";
-    el     += " <div class='art-sec'>";
-    el     +=  "<a href= "+ <%- JSON.stringify(content(src, i, "url" ))  %> +">"
-    el     += "<img src = '"+ <%- content(src, i, "urlToImage" )  %>  +"' />";
-    el     += "<h4>" + <%- (JSON.stringify(src)).toUpperCase() %> + "</h4>";
-    el     += "<h1>" + <%- content(src,i , "title")  %> + "</h1>";
-    el     += "<p>"  + <%- content(src, i, "description")  %> + "</p>";
-    //el     += <%- content(src, i, "author" )  %> + "<br>";
-    //el     += <%- content(src, i, "url" )  %> + "<br>";
-    el     += "         </a></div>";
+        el     += " <div class='art-sec'>";
+        el     +=  "<a href= "+ <%- JSON.stringify(content(src, i, "url" ))  %> +">"
+        el     += "<img src = '"+ <%- content(src, i, "urlToImage" )  %>  +"' />";
+        el     += "<h4>" + <%- (JSON.stringify(src)).toUpperCase() %> + "</h4>";
+        el     += "<h1>" + <%- content(src,i , "title")  %> + "</h1>";
+        el     += "<p>"  + <%- content(src, i, "description")  %> + "</p>";
+        //el     += <%- content(src, i, "author" )  %> + "<br>";
+        //el     += <%- content(src, i, "url" )  %> + "<br>";
+        el     += "         </a></div>";
     document.getElementById("seccol").innerHTML += el ;
  <%}}%>
 
@@ -169,4 +170,5 @@ var stuff = "lol";
 <% maincolContent('recode') %>
 <% seccolContent('national-geographic') %>
 <% maincolContent('bbc-sport') %>
+<% maincolContent('cnn') %>
 </script>

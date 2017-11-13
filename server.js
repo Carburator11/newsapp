@@ -83,6 +83,13 @@
       res.render('front.ejs',{id:req.params.id, object: object});
     });
 
+    app.get('/', function(req, res) {
+      getJson(inputArray, result);
+      let id = date + hh;
+      save(resultObj, id);
+      res.render('front.ejs',{id:id, object: resultObj});
+    });
+
 
     app.use(function(req, res, next){
         res.setHeader('Content-Type', 'text/html');
