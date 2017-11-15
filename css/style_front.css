@@ -62,9 +62,9 @@ body{
 
 #head-title-box{
   position: absolute;
-  top: 65px; left: 30px;
+  top: 60px; left: 30px;
 
-  width: 320px; min-height: 320px;
+  width: 330px; min-height: 330px;
   font-family: 'Merriweather Sans', sans-serif;
   color: white; font-weight: bold;
   z-index: 41;

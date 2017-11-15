@@ -136,6 +136,7 @@ function showDirList(){
         el    +=  "<a id='l' class='editLinks' href='"+ cur +"/previewraw/"+ id +"' onclick= 'previewRaw("+ JSON.stringify(id) +")'>raw</span></a>";
         el    +=  "<a id='l' class='editLinks' href='"+ cur + "/suppr/" + id +"'>suppr</a>";
         el    +=  "<a id='l' class='editLinks' href='"+ cur + "/quieue/" + id +"'>quieue</a>";
+        el    +=  "<a target= '_blank' id='l' class='editLinks' href='"+ cur.substring(0, (cur.length - 5)) + id +"'>URL</a>";
       //el    +=  "<a id='e' class='editLinks' href='https://newsapp-carb11.herokuapp.com//admin/quieue/" + id +"'>QE</a>";
     el    +=  "</li>";
     document.getElementById('viewDirs').innerHTML += el ;

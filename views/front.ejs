@@ -17,11 +17,6 @@
  var head2num = object.metadata.headlines.head2.art ;
  var head3src = object.metadata.headlines.head3.src ;
  var head3num = object.metadata.headlines.head3.art ;
-
-
-
-
-
  %>
 
 
@@ -50,14 +45,17 @@
      </div>
 
      <div class="head-subtitle" id="sub2">
+       <a href="<%- object.content.cnn.articles[1].url %>">
        <div id= "sub-source"><%- (object.content.cnn.source).toUpperCase() %></div>
        <div>  <%- object.content.cnn.articles[1].title %>  </div>
-     </div>
+     </a></div>
+
 
      <div class="head-subtitle" id="sub3">
+       <a href="<%- object.content.cnn.articles[2].url %>">
        <div id= "sub-source"><%- (object.content.cnn.source).toUpperCase() %></div>
        <div><%- object.content.cnn.articles[2].title    %></div>
-     </div>
+     </a></div>
    </div>
 
 
