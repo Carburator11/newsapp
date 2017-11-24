@@ -8,3 +8,4 @@ URL : <a href="https://newsapp-carb11.herokuapp.com/">https://newsapp-carb11.her
 
 <img src="https://www.carb11.eu/static/nrv2_preview.jpg" />
 
+Note : AdBlock bloque parfois le widget Twitter. Ajoutez Twitter à la Safe List ou désactivez AdBlock pour cette page.
